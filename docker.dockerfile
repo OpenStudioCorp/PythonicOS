@@ -1,4 +1,3 @@
-from python
 FROM python:3.9-slim
 
 # Install required packages

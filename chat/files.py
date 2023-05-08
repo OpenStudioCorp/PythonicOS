@@ -1,6 +1,7 @@
 import os
 config_file = os.path.join(os.path.dirname(__file__), 'config.ini')
 passwords = os.path.join(os.path.dirname(__file__), 'pass.ini')
+config_file = os.path.join(os.path.dirname(__file__), 'log.ini')
 config_file = os.path.join(os.path.dirname(__file__), 'pass.ini')
 config_file = os.path.join(os.path.dirname(__file__), 'pass.ini')
 config_file = os.path.join(os.path.dirname(__file__), 'pass.ini')
@@ -98,4 +99,5 @@ config_file = os.path.join(os.path.dirname(__file__), 'pass.ini')
 config_file = os.path.join(os.path.dirname(__file__), 'pass.ini')
 config_file = os.path.join(os.path.dirname(__file__), 'pass.ini')
 config_file = os.path.join(os.path.dirname(__file__), 'pass.ini')
-config_file = os.path.join(os.path.dirname(__file__), 'pass.ini')
+
+

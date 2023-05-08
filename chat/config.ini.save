@@ -1,0 +1,21 @@
+[GUI]
+# Window settings
+title = PythonOS
+geometry = 640x480
+
+# Desktop settings
+background_color = grey
+
+# Taskbar settings
+taskbar_height = 50
+taskbar_color = lightgrey
+taskbar_name = taskbar
+ File "/com.docker.devenvironments.code/chat/desktop.py", line 127, in <module>
+    root.title(config['GUI']['title'])
+  File "/usr/lib/python3.9/configparser.py", line 960, in __getitem__
+    raise KeyError(key)
+KeyError: 'GUI' File "/com.docker.devenvironments.code/chat/desktop.py", line 127, in <module>
+    root.title(config['GUI']['title'])
+  File "/usr/lib/python3.9/configparser.py", line 960, in __getitem__
+    raise KeyError(key)
+KeyError: 'GUI'

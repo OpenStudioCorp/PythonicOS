@@ -1,9 +1,11 @@
+# loginscreen.py
+import subprocess
 import tkinter as tk
 import configparser
 import os
-def main():
-    print('welcome to pythonOS!')
-    
+import argparse
+root = tk.Tk()
+
 def login():
     username = username_entry.get()
     password = password_entry.get()
@@ -17,13 +19,11 @@ def login():
     # Check if entered username and password match the ones in the configuration file
     if username in config['login'] and config['login'][username] == password:
         print("Login successful!")
+        var = "correct"
+        result = subprocess.run(["python3", "shell.py"], input=var, capture_output=True, text=True)
+        root.destroy()  # Close the login window
     else:
         print("Incorrect username or password.")
-    password_entry.delete(0, tk.END)
-
-# Create main window
-root = tk.Tk()
-root.title('Login')
 
 # Create login form
 username_label = tk.Label(root, text='Username')
@@ -31,7 +31,6 @@ username_entry = tk.Entry(root)
 password_label = tk.Label(root, text='Password')
 password_entry = tk.Entry(root, show='*')
 login_button = tk.Button(root, text='Login', command=login)
-
 # Add widgets to the window
 username_label.pack()
 username_entry.pack()
@@ -39,5 +38,11 @@ password_label.pack()
 password_entry.pack()
 login_button.pack()
 
-# Run the main event loop
+# Create root window
+
+
+# Call login() after the root window has been created
+login()
+
+# Start the event loop
 root.mainloop()
