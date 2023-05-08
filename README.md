@@ -1,1 +1,1 @@
-# desktopy
+# PythonicOS
