@@ -152,7 +152,7 @@ load_files()
 root.mainloop()
 
 root = tk.Tk()
-root.title("PthonOS")
+root.title("PythonicOS")
 root.geometry("640x480")
 
 taskbar = tk.Frame(root, height=40, bg='lightgrey')
