@@ -8,49 +8,15 @@ import configparser
 from tkinter import messagebox
 from file import config_file, panno , pyle, addons, home_dir
 from openrun import run_with_python_ide
-
-def open_file(filepath):
-    try:
-        if filepath.endswith('.cs'):
-            subprocess.Popen(['notepad', filepath])
-        elif filepath.endswith('.html'):
-            run_with_panno([filepath])
-        elif filepath.endswith('.txt'):
-            run_with_panno([filepath])
-        else:
-            subprocess.Popen(['notepad', filepath])
-    except FileNotFoundError:
-        messagebox.showerror('Open File', 'Default program not found for the file extension.')
-
-
-def desktop_start_construct():
-    import configparser
+root = tk.Tk()
 config_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'config.ini')
-
-# Read configuration file
 config = configparser.ConfigParser()
 config.read(config_path)
-
-# Create main window
-root = tk.Tk()
-root.title(config['GUI']['title'])
-root.geometry(config['GUI']['geometry'])
-
-# Create taskbar
 taskbar_height = int(config['GUI']['taskbar_height'])
 taskbar_color = config['GUI']['taskbar_color']
 taskbar_name = config['GUI']['taskbar_name']
 taskbar = tk.Frame(root, height=taskbar_height, bg=taskbar_color)
 taskbar.pack(side=tk.TOP, fill=tk.X)
-
-# Create desktop
-desktop = tk.Frame(root, bg=config['GUI']['background_color'])
-desktop.pack(expand=True, fill=tk.BOTH)
-desktop.bind("<Button-3>", lambda event: file_context_menu.delete(0, tk.END))
-
-# Create file context menu
-file_context_menu = tk.Menu(root, tearoff=False)
-
 def load_files():
     for widget in desktop.winfo_children():
         widget.destroy()
@@ -84,7 +50,7 @@ def load_files():
         elif extension == '.txt':
             label.configure(background='white')
 
-        # label.bind("<Button-1>", lambda event, path=file_path: open_file(path))
+        label.bind("<Button-1>", lambda event, path=file_path: open_file(path))
         label.bind("<Button-3>", lambda event, path=file_path: show_file_context_menu(event, path))
         label.grid(row=grid_row, column=grid_column, padx=10, pady=10, sticky='w')
 
@@ -92,6 +58,20 @@ def load_files():
         if grid_column == grid_columns:
             grid_column = 0
             grid_row += 1
+
+desktop = tk.Frame(root, bg='grey')
+def open_file(filepath):
+    try:
+        if filepath.endswith('.cs'):
+            subprocess.Popen(['notepad', filepath])
+        elif filepath.endswith('.html'):
+            run_with_panno([filepath])
+        elif filepath.endswith('.txt'):
+            run_with_panno([filepath])
+        else:
+            subprocess.Popen(['notepad', filepath])
+    except FileNotFoundError:
+        messagebox.showerror('Open File', 'Default program not found for the file extension.')
 
 def delete_file(home_dir):
     if os.path.isfile(home_dir):
