@@ -127,18 +127,18 @@ config.read(config_path)
 
 # Create main window
 root = tk.Tk()
-root.title(config['GUI']['title'])
-root.geometry(config['GUI']['geometry'])
+root.title('cat')
+root.geometry('640x480')
 
 # Create taskbar
-taskbar_height = int(config['GUI']['taskbar_height'])
-taskbar_color = config['GUI']['taskbar_color']
-taskbar_name = config['GUI']['taskbar_name']
+taskbar_height = '50'
+taskbar_color = 'blue'
+taskbar_name = 'taskbar'
 taskbar = tk.Frame(root, height=taskbar_height, bg=taskbar_color)
 taskbar.pack(side=tk.TOP, fill=tk.X)
 
 # Create desktop
-desktop = tk.Frame(root, bg=config['GUI']['background_color'])
+desktop = tk.Frame(root, bg='lightblue')
 desktop.pack(expand=True, fill=tk.BOTH)
 desktop.bind("<Button-3>", lambda event: file_context_menu.delete(0, tk.END))
 
