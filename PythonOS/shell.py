@@ -2,7 +2,9 @@ import os
 import subprocess
 from tkinter import messagebox
 from file import home_dir,config_file,addons,usrpass,pythonOS
-
+import time
+text = "hey! welcome to the PythonicOS shell. this place is the main area that allows you to use PythonicOS to its full abbility's. to get started just say help. this is by no means feature complete"
+delay = 0.5  # Delay in seconds
 def print_greetings():
     
     print("Welcome to MyShell!")
@@ -14,6 +16,13 @@ def print_help():
     print("help: Display this help message")
     print("exit: Exit MyShell")
 
+def welcome(delay,text):
+
+    for char in text:
+        print(char, end='', flush=True)  # Print without a newline and flush the output
+    time.sleep(delay) 
+
+print()  # Print a newline at the end
 def run_with_python_ide(home_dir):
     try:
         subprocess.Popen(['idle', '-r', 'home_dir'])
@@ -57,6 +66,8 @@ while True:
         os.listdir()
     elif tokens[0] == "start":
         StartOS()
+    elif tokens[0] == "hello":
+        welcome(delay,text)
 
     else:
         print(f"{tokens[0]}: command not found")

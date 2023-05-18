@@ -3,13 +3,15 @@ import os
 from PyQt5.QtWidgets import QApplication, QMainWindow, QMenu, QAction, QDesktopWidget, QLabel, QWidget, QGridLayout, QFileDialog
 from PyQt5.QtGui import QIcon, QPixmap, QCursor
 from PyQt5.QtCore import Qt, QUrl, QStandardPaths
-
+from PyQt5.QtCore import Qt, QMimeData
+from PyQt5.QtGui import QDrag, QCursor
+from PyQt5.QtWidgets import QApplication, QLabel
+import subprocess
 class Desktop(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Desktop")
-        self.setGeometry(100, 100, 800, 600)
-
+        self.setGeometry(100, 100, 600, 50)
         self.setStyleSheet("background-color: #f0f0f0;")
         self.icons_layout = QGridLayout()
         self.icons_layout.setSpacing(20)
@@ -19,10 +21,11 @@ class Desktop(QMainWindow):
         self.load_icons()
 
     def load_icons(self):
-        folder_path = "home"  # Specify the path to the folder containing the files
+        folder_path = "PythonOS/home"  # Specify the path to the folder containing the files, change from PythonOS/home to Home when running within the idle or for building
         files = os.listdir(folder_path)
-        icon_size = (1 * 50, 1 * 50)  # 5 inches in width and height (assuming 96 DPI)
-        row = 1
+        icon_size = (1 * 80, 1 * 80)  # 5 inches in width and height (assuming 96 DPI)
+        max_columns = 20  # Maximum number of columns, change this if you want more items on one row!
+        row = 0
         col = 0
         for file_name in files:
             file_path = os.path.join(folder_path, file_name)
@@ -32,15 +35,19 @@ class Desktop(QMainWindow):
                 "QLabel { background-color: #007bff; color: white; font-size: 12pt; padding: 8px; border-radius: 4px; }"
             )
             icon_label.setToolTip(file_path)
-            icon_label.mousePressEvent = lambda event: self.open_file(file_path)
             self.icons_layout.addWidget(icon_label, row, col)
+
             col += 1
-            if col >= 4:  # Adjust the number of columns as needed
+            if col >= max_columns:
                 col = 0
                 row += 1
 
+        # Set column stretch to allow wrapping when the window size is too small
+        self.icons_layout.setColumnStretch(max_columns, 1)
+
     def open_file(self, file_path):
-        os.startfile(file_path)  # Open the file using the default associated program
+        print()
+        subprocess.Popen(['python','addons/panno.py'])  # Open the file using the default associated program
 
     def contextMenuEvent(self, event):
         context_menu = QMenu(self)
