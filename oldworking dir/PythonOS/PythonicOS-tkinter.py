@@ -121,7 +121,7 @@ def load_files():
     if not os.path.exists(home_dir):
         os.makedirs(home_dir)
     files = sorted(os.listdir(home_dir))  # Sort files alphabetically
-    grid_columns = 3
+    grid_columns = 10
     grid_row = 0
     grid_column = 0
 
@@ -191,7 +191,17 @@ def show_file_context_menu(event):
     
     # Add menu items to the context menu
     file_context_menu.add_command(label="Load Files", command=load_files)
-    
+    if not is_pinned(home_dir):
+        file_context_menu.add_command(label='pin to task bar', command=lambda: pin_to_taskbar(home_dir))
+    if is_pinned(home_dir):
+        file_context_menu.add_command(label='unpin from task bar', command=lambda: unpin_from_taskbar(home_dir))
+    file_context_menu.add_command(label="Load Files", command=load_files)
+    file_context_menu.add_command(label="Load Files", command=load_files)
+    file_context_menu.add_command(label="Load Files", command=load_files)
+    file_context_menu.add_command(label="Load Files", command=load_files)
+    file_context_menu.add_command(label="Load Files", command=load_files)
+    file_context_menu.add_command(label="Load Files", command=load_files)
+
     # Post the context menu
     file_context_menu.post(event.x_root, event.y_root)  # Use event.x_root and event.y_root
 
