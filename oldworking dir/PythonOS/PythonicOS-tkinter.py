@@ -9,6 +9,8 @@ import argparse
 import math
 
 import configparser
+
+    
 def start_rename(home_dir):
     label = find_label(home_dir)
     entry = tk.Entry(label, relief=tk.FLAT)
@@ -181,7 +183,7 @@ desktop.pack(expand=True, fill=tk.BOTH)
 # Create file context menu
 # Create file context menu as a global variable
 file_context_menu = None
-
+load_files()
 # Define the function for the right-click event on the desktop
 def show_file_context_menu(event):
     global file_context_menu  # Access the global variable
@@ -331,7 +333,9 @@ def run_with_panno(home_dir):
 
 
 
-
+def main():
+    load_files()
+    refresh_code()
 
 
 # -------------------------------------------------#
@@ -343,3 +347,6 @@ def run_with_panno(home_dir):
 load_files()
 
 root.mainloop()
+
+if __name__ == "__main__":
+    main()
