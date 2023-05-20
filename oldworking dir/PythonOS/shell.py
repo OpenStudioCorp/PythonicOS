@@ -40,7 +40,7 @@ def mkdir():
         print("Error creating directory '%s': %s" % (directory_name, error))
 
 def StartOS():
-    subprocess.Popen(['python', pythonOS])
+    subprocess.Popen(['python', 'PythonicOS.py'])
 
 def my_shell():
     print_greetings()

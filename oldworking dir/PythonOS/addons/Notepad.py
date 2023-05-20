@@ -7,7 +7,7 @@ from tkinter.filedialog import *
 #this notepad applacation was made by six519
 # https://github.com/six519/Python-Notepad
 # this program plugin change applys the origonal creators repos licence.md file
-# any addons added to desktopy shall make desktopy free and open source
+# any addons added to PythonicOS shall make PythonicOS free and open source
 #
 #
 #-----------------------------------------#
@@ -96,7 +96,7 @@ class Notepad:
         #exit()
 
     def __showAbout(self):
-        showinfo("Notepad","Created by: Ferdinand Silva (http://ferdinandsilva.com)")
+        showinfo("Notepad","Created by: Ferdinand Silva (http://ferdinandsilva.com) and used within PythonicOS by the repo's licence.MD file")
 
     def __openFile(self):
         
