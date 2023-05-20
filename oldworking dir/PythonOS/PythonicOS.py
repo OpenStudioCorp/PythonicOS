@@ -13,8 +13,6 @@ script_path = sys.argv[0]
 # Get the directory containing the script or executable file
 home_dir = os.path.dirname(os.path.abspath(script_path))
 import configparser
-
-    
 def start_rename(home_dir):
     label = find_label(home_dir)
     entry = tk.Entry(label, relief=tk.FLAT)
@@ -127,7 +125,7 @@ def show_files_context_menu(event):
     context_menu = tk.Menu(desktop, tearoff=0)
     home_dir = os.getcwd()
     # Add "Open" option to the right-click menu
-    context_menu.add_command(label='Open', command=lambda: open_file(home_dir)) # type: ignore
+
     if not is_pinned(home_dir):
         context_menu.add_command(label='pin to task bar', command=lambda: pin_to_taskbar(home_dir))
     if is_pinned(home_dir):
@@ -189,7 +187,8 @@ def load_files():
         elif extension == '.txt':
             label.configure(background='white')
 
-        label.bind("<Button-1>", lambda event, path=home_dir: open_file(file)) # type: ignore
+        label.bind("<Button-1>", lambda event, home_dir=home_dir: open_file(file, home_dir))
+
         label.bind("<Button-3>", lambda event, path=home_dir: show_file_context_menu(event))
         label.grid(row=grid_row, column=grid_column, padx=10, pady=10, sticky='w')
 
