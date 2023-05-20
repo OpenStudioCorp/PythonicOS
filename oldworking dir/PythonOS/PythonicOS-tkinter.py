@@ -29,6 +29,10 @@ def finish_rename(home_dir, entry):
         pin_to_taskbar(new_home_dir)
     load_files()
 
+def delete_file(home_dir):
+    if os.path.isfile(home_dir):
+        os.remove(home_dir)
+        print(f'{home_dir} has been deleted.')
 
 def pin_to_taskbar(home_dir):
     if not is_pinned(home_dir):
@@ -40,6 +44,21 @@ def pin_to_taskbar(home_dir):
 
         taskbar_label.bind("<Button-1>", lambda event, path=home_dir: open_pinned_file())
 
+# ---------------------------------------------#
+# open file allows you to open files with diffrent editors, panno is the most used for writing python,css,js ect, and pyle is a webbrowser that allows you to navagate the web!
+# ---------------------------------------------#
+def open_file(home_dir):
+    try:
+        if home_dir.endswith('.cs'):
+            subprocess.Popen(['notepad', home_dir])
+        elif home_dir.endswith('.html'):
+            run_with_panno([home_dir])
+        elif home_dir.endswith('.txt'):
+            run_with_panno([home_dir])
+        else:
+            subprocess.Popen(['notepad', home_dir])
+    except FileNotFoundError:
+        messagebox.showerror('Open File', 'Default program not found for the file extension.')
 
 def unpin_from_taskbar(home_dir):
     for widget in taskbar.winfo_children():
@@ -72,8 +91,8 @@ __license__ = "construct1.0"
 
 
 def create_file(home_dir):
-    if not os.path.exists(home_directory):
-        os.mkdir(home_directory)
+    if not os.path.exists(home_dir):
+        os.mkdir(home_dir)
 
     filename = 'file{}.py'.format(len(os.listdir(home_dir)))
 
@@ -92,19 +111,20 @@ def show_popup(message):
 
 
 def load_files():
+    import file
+    from file import home_dir
     for widget in desktop.winfo_children():
         widget.destroy()
 
-    files_path = 'files'
-    if not os.path.exists(files_path):
-        os.makedirs(files_path)
-    files = sorted(os.listdir(files_path))  # Sort files alphabetically
-    grid_columns = 5
+    if not os.path.exists(home_dir):
+        os.makedirs(home_dir)
+    files = sorted(os.listdir(home_dir))  # Sort files alphabetically
+    grid_columns = 3
     grid_row = 0
     grid_column = 0
 
     for file in files:
-        home_dir = os.path.join(files_path, file)
+        home_dir = os.path.join(home_dir, file)
         label = tk.Label(desktop, text=file, pady=10)
 
         # Get the file extension
@@ -132,8 +152,10 @@ def load_files():
         if grid_column == grid_columns:
             grid_column = 0
             grid_row += 1
-
+        if file_context_menu is not None:
+           file_context_menu.destroy()
 # import configparser and the config.ini file
+import configparser
 config_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'config.ini')
 
 # Read configuration file
@@ -142,7 +164,7 @@ config.read(config_path)
 
 # Create main window
 root = tk.Tk()
-root.title('cat')
+root.title('PythonicOS')
 root.geometry('640x480')
 
 # Create taskbar
@@ -157,7 +179,25 @@ desktop = tk.Frame(root, bg='lightblue')
 desktop.pack(expand=True, fill=tk.BOTH)
 
 # Create file context menu
-file_context_menu = tk.Menu(root, tearoff=False)
+# Create file context menu as a global variable
+file_context_menu = None
+
+# Define the function for the right-click event on the desktop
+def show_file_context_menu(event):
+    global file_context_menu  # Access the global variable
+    file_context_menu = tk.Menu(desktop, tearoff=False)  # Create the menu with the desktop frame as the parent
+    
+    # Add menu items to the context menu
+    file_context_menu.add_command(label="Load Files", command=load_files)
+    
+    # Post the context menu
+    file_context_menu.post(event.x_root, event.y_root)  # Use event.x_root and event.y_root
+
+# Bind the function to the right-click event on the desktop
+desktop.bind("<Button-3>", show_file_context_menu)
+# Run the Tkinter event loop
+root.mainloop()
+load_files()
 
 def show_files_context_menu(event):
     context_menu = tk.Menu(desktop, tearoff=0)
@@ -186,10 +226,8 @@ def show_files_context_menu(event):
     context_menu.add_command(label='panno!', command=lambda: run_with_panno(home_dir))
     context_menu.add_command(label='Refresh', command=lambda: refresh_code())
     context_menu.add_command(label='Delete', command=lambda: (delete_file(home_dir), load_files()))
-
+    context_menu.post(event.x, event.y)
     load_files()
-    context_menu.post(event.x_desktop, event.y_desktop)
-
     
 # Bind the function to the right-click event on the desktop
 desktop.bind("<Button-3>", show_files_context_menu)
@@ -207,10 +245,6 @@ script_path1 = os.path.join(script_dir, 'addons', 'pyle.py')
 
 
 # ------------------------------------------#
-def delete_file(home_dir):
-    if os.path.isfile(home_dir):
-        os.remove(home_dir)
-        print(f'{home_dir} has been deleted.')
 
 
 delete_file('home_dir')
@@ -218,21 +252,6 @@ load_files()
 
 
 
-# ---------------------------------------------#
-# open file allows you to open files with diffrent editors, panno is the most used for writing python,css,js ect, and pyle is a webbrowser that allows you to navagate the web!
-# ---------------------------------------------#
-def open_file(home_dir):
-    try:
-        if home_dir.endswith('.cs'):
-            subprocess.Popen(['notepad', home_dir])
-        elif home_dir.endswith('.html'):
-            run_with_panno([home_dir])
-        elif home_dir.endswith('.txt'):
-            run_with_panno([home_dir])
-        else:
-            subprocess.Popen(['notepad', home_dir])
-    except FileNotFoundError:
-        messagebox.showerror('Open File', 'Default program not found for the file extension.')
 
 
 
@@ -310,8 +329,6 @@ def run_with_panno(home_dir):
 
 # Bind the right-click event to the desktop window
 
-script_path = os.path.dirname(os.path.abspath(__file__))
-home_directory = os.path.join(script_path, 'home')
 
 
 
