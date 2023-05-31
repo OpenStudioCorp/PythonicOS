@@ -1,13 +1,75 @@
-# welcome to PythonicOS
+# PythonicOS
 
-built ontop of a custom ISO version of TinyCore Linux, PythonicOS is made for the pythoners that want to play around with python in a vm or a actual machine, it includes pip, pyQT and the respective packages.
+PythonicOS is an open-source operating system built on top of the Linux kernel and the GRUB bootloader. It is developed using a combination of Python and C programming languages, making it an ideal choice for developers familiar with these languages.
 
-there are 2 versions of this Operating system.
+## Features
 
-one built in Tkinter for compatibility with older software.
+- **Pythonic Environment:** PythonicOS provides a familiar environment for Python developers, allowing them to leverage their existing knowledge and libraries to build applications and system components.
 
-and one built in PyQT for later software.
+- **Linux Kernel:** Built on top of the reliable and robust Linux kernel, PythonicOS inherits its stability, security, and hardware compatibility features.
 
-its best to use the Tkinter one as its easy to use and better overall for development!
+- **GRUB Bootloader:** PythonicOS utilizes the GRUB (GRand Unified Bootloader) to handle the boot process, providing flexibility and support for various hardware configurations.
 
-thanks ofr taking the time to read this garbage intro readme!
+- **Extensibility:** PythonicOS is designed with extensibility in mind. Developers can easily extend and customize the operating system by writing modules and adding new features.
+
+## Getting Started
+
+### Prerequisites
+
+To build and run PythonicOS, you will need the following software installed on your system:
+
+- Linux kernel source code
+- GRUB bootloader
+- Python 3.x or later
+- requirements from the requirements.txt file, you can install them using Pip install -R requirements.txt
+
+### Building PythonicOS
+
+1. Clone the PythonicOS repository:
+
+git clone https://github.com/OpenStudioCorp/PythonicOS.git
+
+2. Change into the PythonicOS directory:
+   
+3. cd PythonicOS
+   
+  Build the operating system using the provided build script:
+   
+  #Running PythonicOS
+
+Install the GRUB bootloader on a bootable device (e.g., USB drive) using the following command:
+
+grub-install /dev/sdX
+
+Replace /dev/sdX with the appropriate device identifier for your system.
+
+Copy the generated kernel image and configuration files to the bootable device.
+
+Reboot your system and select the bootable device as the boot source in your BIOS or UEFI settings.
+----------------------------------------------------------------------------------------------------
+
+# Contributing
+
+We welcome contributions from the community to enhance PythonicOS. To contribute, please follow these steps:
+
+Fork the PythonicOS repository.
+
+Create a new branch for your feature or bug fix:
+
+git checkout -b feature/your-feature-name
+
+Make the necessary changes and commit them:
+
+git commit -m "Add your commit message here"
+
+Push your changes to your forked repository:
+
+git push origin feature/your-feature-name
+
+Open a pull request in the original PythonicOS repository, describing your changes and their purpose.
+------------------------------------------------------------------------------------------------------
+License
+PythonicOS is released under the MIT License.
+
+Contact
+For any questions, suggestions, or feedback, please reach out to us at your-email@example.com.
