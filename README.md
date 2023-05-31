@@ -25,13 +25,13 @@ To build and run PythonicOS, you will need the following software installed on y
 
 ### Building PythonicOS
 
-1. Clone the PythonicOS repository:
+  Clone the PythonicOS repository:
 
-git clone https://github.com/OpenStudioCorp/PythonicOS.git
+  git clone https://github.com/OpenStudioCorp/PythonicOS.git
 
-2. Change into the PythonicOS directory:
+  Change into the PythonicOS directory:
    
-3. cd PythonicOS
+  cd PythonicOS
    
   Build the operating system using the provided build script:
    
