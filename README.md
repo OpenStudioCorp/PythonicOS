@@ -72,4 +72,4 @@ License
 PythonicOS is released under the MIT License.
 
 Contact
-For any questions, suggestions, or feedback, please reach out to us at your-email@example.com.
+For any questions, suggestions, or feedback, please reach out to us at our discord,
