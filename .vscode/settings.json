@@ -1,7 +1,0 @@
-{
-    "editor.fontSize": 18,
-    "python.analysis.typeCheckingMode": "basic",
-    "python.analysis.extraPaths": [
-        "./chat"
-    ]
-}
