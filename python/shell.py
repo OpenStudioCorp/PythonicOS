@@ -1,13 +1,14 @@
 import os
 import subprocess
-from python.towii import pydata1,pydata2
-
+from towii import pydata1,pydata2
 import tkinter
 from tkinter import messagebox
-from file import home_dir,config_file,addons,usrpass,pythonOS
+
 
 def print_greetings():
-    
+    '''
+    Print a welcome message to the user.
+    '''
     print("thanks for using PythonicShell!")
     print("Version 1.0")
 
@@ -19,6 +20,9 @@ def print_help():
 
 
 def mkdir():
+    '''
+    Create a new directory in the current working directory.
+    '''
     directory_name = input("Enter the name of the directory to be created: ")
     path = os.path.join(os.getcwd(), directory_name)
 
@@ -28,6 +32,9 @@ def mkdir():
     except OSError as error:
         print("Error creating directory '%s': %s" % (directory_name, error))
 def editfile():
+    '''
+    Edit a file in the current working directory.
+    '''
     filename = input("Enter the name of the file to edit: ")
     path = os.path.join(os.getcwd(), filename)
     if 'path' == None:
