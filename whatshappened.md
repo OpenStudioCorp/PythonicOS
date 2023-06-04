@@ -16,7 +16,7 @@ Actions Taken
 
 Moving forward, the primary Repo OpenStudio/PythonicOS will be the central repository for development efforts. Here's what you can do:
 
-    If you have previously cloned or forked one of the archived repositories, it is recommended to update your remote URLs to point to the primary fork.
+    If you have previously cloned or forked one of the archived repositories, it is recommended to update your remote URLs to point to the primary repo.
     Ensure you are working with the latest version of the primary fork by pulling the latest changes.
     If you were contributing to one of the archived forks, please redirect your efforts to the primary fork and submit any future pull requests there.
     Be mindful of the branching structure within the primary repository to organize and manage different features or development streams.
