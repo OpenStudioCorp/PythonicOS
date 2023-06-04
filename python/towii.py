@@ -7,11 +7,12 @@ import socket
 # if you want to make your own sockets for the desktop or have a literal standard for data transfer
 # import socket thenn call socket.socketpair() with the names of the socket like pydata1, pydata2 = socket.socketpair()
 #
+# do note that pydata1 is the socket that is used to recive data from the desktop and should allways be left open
+# pydata2 is the socket that is used to send data to the desktop and should allways be left open
+# if you want to send data to the desktop use pydata2.send(data.encode())
 #
-#
-#
-#
-#
+# if you want to recive data from the desktop use data = pydata2.recv(1024).decode()
+# you can only recive from pydata1, and only send from pydata2
 #
 #
 #
