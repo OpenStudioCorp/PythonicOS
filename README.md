@@ -1,5 +1,10 @@
 # PythonicOS
 
+hey! before we get started, please throughly read [whatshappened.md](whatshappened.md)
+it will best explain what the archived repos are for!
+sorry for the inconvience with repo switching, please take care!
+-charlie!
+----------------
 PythonicOS is an open-source operating system built on top of the Linux kernel and the GRUB bootloader. It is developed using a combination of Python and C programming languages, making it an ideal choice for developers familiar with these languages.
 
 ## Features
