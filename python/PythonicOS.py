@@ -3,11 +3,53 @@ import subprocess
 from tkinter import messagebox
 import sys
 import time
+import configparser
 import os
 subprocess.call('setup.exe')
+config = configparser.ConfigParser()
+config.read('config.ini')
+value = config.get('desktop', 'background')
+value = config.get('desktop', 'widgets_width')
+value = config.get('desktop', 'width')
+value = config.get('section_name', 'option_name')
+value = config.get('section_name', 'option_name')
+value = config.get('section_name', 'option_name')
+value = config.get('section_name', 'option_name')
+value = config.get('section_name', 'option_name')
+value = config.get('section_name', 'option_name')
+value = config.get('section_name', 'option_name')
+print("Config loaded.")
+time.sleep(1)
+print("Loading PythonicOS...")
+time.sleep(1)
+#-----------------------#
+DIRS = [
+    'home',
+    'bin',
+    'scripts',
+    'addons',
+    'documents',
+    'home/user',
+    'home/user/documents',
+    'home/user/documents/projects',
+    'system',
+    'system/scripts',
+    'system/logs',
+    'mount'
+]
 
-home_dir = 'python/home'
+# Iterate over the DIRS list and assign each element to a variable with modified names
+for directory in DIRS:
+    variable_name = directory.replace('/', '_')
+    globals()[variable_name] = directory
+home_dir = home
+# Now, you can access the variables by their modified names
+#print(home)  # Output: home
+#print(bin)  # Output: bin
+#print(scripts)  # Output: scripts
+#print(home_user_documents)
 
+#---------------------------------#
 def start_rename(home_dir, label):
     entry = tk.Entry(label, relief=tk.FLAT)
     entry.insert(0, label.cget("text"))
@@ -156,7 +198,7 @@ def load_files(home_dir):
         label.bind("<Button-3>", lambda event, path=file_path: show_files_context_menu(event))
         label.grid(row=grid_row, column=grid_column, padx=10, pady=10, sticky='w')
 
-def refresh_code():
+def refresh_code(home_dir):
     load_files(home_dir)
 
 root = tk.Tk()
@@ -185,7 +227,7 @@ def show_desktop_context_menu(event):
 
     file_context_menu.add_command(label='New File', command=lambda: create_file(home_dir))
     file_context_menu.add_command(label='Load Files', command=lambda: load_files(home_dir))
-    file_context_menu.add_command(label='Refresh', command=lambda: refresh_code())
+    file_context_menu.add_command(label='Refresh', command=lambda: refresh_code(home_dir))
     file_context_menu.add_command(label='Delete', command=lambda: (delete_file(home_dir), load_files(home_dir)))
     file_context_menu.post(event.x_root, event.y_root)
 

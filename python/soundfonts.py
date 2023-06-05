@@ -1,5 +1,6 @@
 import playsound
 from playsound import playsound
+
 def start():
     playsound('start1.mp3')
 def warning():

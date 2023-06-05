@@ -9,7 +9,7 @@ def print_greetings():
     '''
     Print a welcome message to the user.
     '''
-    print("Thanks for using PythonicShell!")
+    print("Welcome to PythonicOS!")
     print("Version 1.0")
 
 
