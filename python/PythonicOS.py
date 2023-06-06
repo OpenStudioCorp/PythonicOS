@@ -5,49 +5,59 @@ import sys
 import time
 import configparser
 import os
-subprocess.call('setup.exe')
-config = configparser.ConfigParser()
-config.read('config.ini')
-value = config.get('desktop', 'background')
-value = config.get('desktop', 'widgets_width')
-value = config.get('desktop', 'width')
-value = config.get('section_name', 'option_name')
-value = config.get('section_name', 'option_name')
-value = config.get('section_name', 'option_name')
-value = config.get('section_name', 'option_name')
-value = config.get('section_name', 'option_name')
-value = config.get('section_name', 'option_name')
-value = config.get('section_name', 'option_name')
+from file import *
+# subprocess.call('setup.py')
+#-----------------------------------#
+#   welcome to PythonicOS's desktop module
+#   
+#
+#-----------------------------------#
+config = configparser.ConfigParser()# get the config thing setup
+config.read('config.ini')# read the config file to set the desktop! 
+# if you want to change the background color or something, modify config.ini
+
+#----------------------------------#
+bkgr = config.get['desktop']['background']
+tskbr = config.get['desktop']['taskbar']
+ttl = config.get['desktop']['title']
+geo = config.get['desktop']['geometry']
+taskbar_height = config.get['taskbar']['taskbar_height']
+taskbar_color = config.get['taskbar']['taskbar_color']
+
+
+#----------------------------------#
+
 print("Config loaded.")
 time.sleep(1)
 print("Loading PythonicOS...")
 time.sleep(1)
-#-----------------------#
-DIRS = [
-    'home',
-    'bin',
-    'scripts',
-    'addons',
-    'documents',
-    'home/user',
-    'home/user/documents',
-    'home/user/documents/projects',
-    'system',
-    'system/scripts',
-    'system/logs',
-    'mount'
-]
+root = tk.Tk()
+root.title(ttl)
+root.geometry(geo)
 
-# Iterate over the DIRS list and assign each element to a variable with modified names
-for directory in DIRS:
-    variable_name = directory.replace('/', '_')
-    globals()[variable_name] = directory
-home_dir = home
-# Now, you can access the variables by their modified names
-#print(home)  # Output: home
-#print(bin)  # Output: bin
-#print(scripts)  # Output: scripts
-#print(home_user_documents)
+
+taskbar = tk.Frame(root, height=taskbar_height, bg=taskbar_color)
+taskbar.pack(side=tk.TOP, fill=tk.X)
+
+desktop = tk.Frame(root, bg=bkgr)
+desktop.pack(expand=True, fill=tk.BOTH)
+
+#-----------------------#
+
+syst = 'sys'
+system = 'system'
+sys_home = 'system/home'
+sys_bin = 'system/bin'
+sys_scripts = 'system/scripts'
+sys_addr = 'system/addons'
+sys_docu = 'system/documents'
+sys_hom_usr = 'system/home/user'
+sys_hom_usr_doc = 'system/home/user/documents'
+sys_hom_usr_doc_pro = 'system/home/user/documents/projects'
+sys_logs = 'system/logs'
+sys_wel = 'system/welcome'
+sys_wel_bin = 'system/welcome/bin'
+mount = 'mount'
 
 #---------------------------------#
 def start_rename(home_dir, label):
@@ -201,18 +211,6 @@ def load_files(home_dir):
 def refresh_code(home_dir):
     load_files(home_dir)
 
-root = tk.Tk()
-root.title('PythonicOS')
-root.geometry('640x480')
-
-taskbar_height = '50'
-taskbar_color = 'blue'
-
-taskbar = tk.Frame(root, height=taskbar_height, bg=taskbar_color)
-taskbar.pack(side=tk.TOP, fill=tk.X)
-
-desktop = tk.Frame(root, bg='lightblue')
-desktop.pack(expand=True, fill=tk.BOTH)
 load_files(home_dir)
 
 def show_desktop_context_menu(event):
