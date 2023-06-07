@@ -2,9 +2,13 @@ import os
 config_file = os.path.join(os.path.dirname(__file__), 'config.ini')
 usrpass = os.path.join(os.path.dirname(__file__), 'pass.ini')
 config_login = os.path.join(os.path.dirname(__file__), 'config_login.ini')
-home_dir = os.path.join(os.path.dirname(__file__), 'home')
-pythonOS = os.path.join(os.path.dirname(__file__), 'home')
 shell = os.path.join(os.path.dirname(__file__), 'shell.py')
+pycrashconfig = os.path.join(os.path.dirname(__file__), 'scripts', 'bluescreens', 'pycrashconfig.py')
+pycrashnone = os.path.join(os.path.dirname(__file__), 'scripts', 'bluescreens', 'py_crash_none.py')
+pycrashos = os.path.join(os.path.dirname(__file__), 'scripts', 'bluescreens', 'py_crash_os.py')
+pycrashshell = os.path.join(os.path.dirname(__file__), 'scripts', 'bluescreens', 'py_crash_shell.py')
+
+
 DIRS = [
     'sys'
     'system',
