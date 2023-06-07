@@ -5,24 +5,55 @@ import sys
 import time
 import configparser
 import os
-from file import *
+import shutil
+import datetime
+import file
+
+
 # subprocess.call('setup.py')
 #-----------------------------------#
 #   welcome to PythonicOS's desktop module
-#   
-#
+#   this module should not be touched unless you know what your doing and you have a backup of it!
+#   this module is the main module of the OS, it is the desktop, it is the thing that you see when you open the OS
+#   it has multiple functions that allow you to do things like open files, create files, delete files, and more!
 #-----------------------------------#
-config = configparser.ConfigParser()# get the config thing setup
-config.read('config.ini')# read the config file to set the desktop! 
-# if you want to change the background color or something, modify config.ini
+
 
 #----------------------------------#
-bkgr = config.get['desktop']['background']
-tskbr = config.get['desktop']['taskbar']
-ttl = config.get['desktop']['title']
-geo = config.get['desktop']['geometry']
-taskbar_height = config.get['taskbar']['taskbar_height']
-taskbar_color = config.get['taskbar']['taskbar_color']
+#   config.ini
+#   this is the config file for the desktop
+#   it is used to set the desktop's background color, taskbar color, and more!
+#----------------------------------#
+if os.path.isfile('python/config.ini'):# check if the config file exists
+    try:
+    # if it does, load it
+        config = configparser.ConfigParser()# get the config thing setup
+        config.read('python/config.ini')# read the config file to set the desktop! 
+# if you want to change the background color or something, modify config.ini
+        bkgr = config.get('desktop', 'background')
+        tskbr = config.get('desktop', 'taskbar')
+        ttl = config.get('desktop', 'title')
+        geo = config.get('desktop', 'geometry')
+        taskbar_height = config.get('taskbar', 'taskbar_height')
+        taskbar_color = config.get('taskbar', 'taskbar_color')
+        print("Config loaded.")
+    except:
+        print("Error loading config.ini. Please check your config.ini file.")
+        print("If you do not have a config.ini file, please create one.")
+        print("If you do not know how to create a config.ini file, please read the documentation.")
+        print("defaluting to built-in confuguration...")
+else:
+    bkgr = 'darkgray'
+tskbr = 'True'
+ttl = 'PythonicOS'
+geo = '800x600'
+taskbar_height = '30'
+taskbar_color = 'black'
+
+
+
+
+
 
 
 #----------------------------------#
@@ -35,18 +66,25 @@ root = tk.Tk()
 root.title(ttl)
 root.geometry(geo)
 
-
-taskbar = tk.Frame(root, height=taskbar_height, bg=taskbar_color)
-taskbar.pack(side=tk.TOP, fill=tk.X)
-
+if tskbr == 'True':
+    try:
+        taskbar = tk.Frame(root, height=taskbar_height, bg=taskbar_color)
+        taskbar.pack(side=tk.TOP, fill=tk.X)
+    except:
+        print("Error loading taskbar. Please check your config.ini file.")
+else:
+    print("Taskbar disabled. To enable the taskbar, please edit config.ini and set taskbar to True.")
 desktop = tk.Frame(root, bg=bkgr)
+
+#----------------------------------#
+
 desktop.pack(expand=True, fill=tk.BOTH)
 
 #-----------------------#
 
 syst = 'sys'
 system = 'system'
-sys_home = 'system/home'
+home_dir = 'system/home'
 sys_bin = 'system/bin'
 sys_scripts = 'system/scripts'
 sys_addr = 'system/addons'
@@ -108,7 +146,7 @@ def pin_to_taskbar(home_dir):
         load_files(home_dir)
 def open_file(home_dir):
     if home_dir:
-        subprocess.Popen(['python', 'addons/panno.py', home_dir])
+        subprocess.Popen(['python', 'system/addons/panno.py', home_dir])
         print(home_dir)
     else:
         print("No file path provided.")

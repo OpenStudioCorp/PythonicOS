@@ -9,23 +9,21 @@ import file
 from file import usrpass,config_login,shell
 root = tk.Tk()
 
-config = configparser.ConfigParser()
-config.read(config_login)
+
 
 def login():
+    config = configparser.ConfigParser()
+    config.read('python/passwd.ini')
     username = username_entry.get()
     password = password_entry.get()
     
     # Read passwords from configuration file
-    config_file = os.path.join(os.path.dirname(__file__), 'pass.ini')
-    config = configparser.ConfigParser()
-    config.read(config_file)
 
     # Check if entered username and password match the ones in the configuration file
     if username in config['login'] and config['login'][username] == password:
         print("Login successful!")
         
-        subprocess.Popen(["python3", 'PythonOS/shell.py'])
+        subprocess.call(["python", 'python/shell.py'])
         print('cat')
         root.destroy()  # Close the login window
     else:
