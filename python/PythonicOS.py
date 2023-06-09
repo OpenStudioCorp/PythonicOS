@@ -1,4 +1,5 @@
 # import the things that we need, even the ones that we don't need
+from json import load
 import tkinter as tk
 import tkinter.font as tkFont
 import subprocess
@@ -12,6 +13,7 @@ import datetime
 import file
 from file import pycrashos, pycrashnone, pycrashshell,pycrashconfig, shell, config_file, usrpass, config_login
 import logging
+import argparse
 from tkinter import ttk  # Normal Tk widgets don't look good on Mac and Linux, and also some of the code in this file uses ttk, idk why?
 root = tk.Tk()
 # subprocess.call('setup.py')
@@ -29,7 +31,7 @@ root = tk.Tk()
 #   unpin_from_taskbar(home_dir)
 #   is_pinned(home_dir)
 #   open_file(home_dir)
-#   load_files()
+#   load_files(home_dir)
 #   create_file(home_dir)
 #   create_folder(home_dir)
 #   delete_folder(home_dir)
@@ -62,7 +64,7 @@ logging.basicConfig(filename=f'error{dt}.log', level=logging.ERROR)
 
 SYST = 'sys'
 system = 'system'
-HOME_DIR = 'system/home/user'
+home_dir = 'system/home/user'
 SYS_BIN = 'system/bin'
 SYS_SCRIPTS = 'system/scripts'
 sys_addr = 'system/addons'
@@ -102,7 +104,7 @@ if os.path.isfile('python/config.ini'):# check if the config file exists
         # that is why i have it commented out, because it will fill up your hard drive with error logs
         # there is a way to fix this, but i dont know how to do it 
         # there is more of these aswell in the other modules and in here aswell -charlie!
-        subprocess.Popen('system/scripts/bluescreens/py_crash_config.py')
+
         print("Error loading config.ini. Please check your config.ini file.")
         print("If you do not have a config.ini file, please create one.")
         print("If you do not know how to create a config.ini file, please read the documentation.")
@@ -116,102 +118,28 @@ else:
     taskbar_color = 'black' # if it doesnt, set the taskbar color to the default color
     print("Config not found. Defaluting to built-in confuguration...")
 
-def create_app(root, error):
-    #setting title
-    root.title("woops!")
-    #setting window size
-    width=600
-    height=500
-    screenwidth = root.winfo_screenwidth()
-    screenheight = root.winfo_screenheight()
-    alignstr = '%dx%d+%d+%d' % (width, height, (screenwidth - width) / 2, (screenheight - height) / 2)
-    root.geometry(alignstr)
-    root.resizable(width=False, height=False)
-    root.configure(bg="blue")
-    GButton_145=tk.Button(root)
-    GButton_145["bg"] = "#f0f0f0"
-    ft = tkFont.Font(family='Times',size=10)
-    GButton_145["font"] = ft
-    GButton_145["bg"] = "blue"
-    GButton_145["fg"] = "white"
-    GButton_145["justify"] = "center"
-    GButton_145["text"] = "restart"
-    GButton_145.place(x=0,y=470,width=596,height=30)
-    GButton_145["command"] = scat
 
-    GLabel_688=tk.Label(root)
-    ft = tkFont.Font(family='Times',size=10)
-    GLabel_688["font"] = ft
-    GLabel_688["fg"] = "white"
-    GLabel_688["bg"] = "blue"
-    GLabel_688["justify"] = "center"
-    GLabel_688["text"] = "well that doesnt seem too great!"
-    GLabel_688["relief"] = "raised"
-    GLabel_688.place(x=160,y=0,width=246,height=30)
 
-    GLabel_735=tk.Label(root)
-    ft = tkFont.Font(family='Times',size=10)
-    GLabel_735["font"] = ft
-    GLabel_735["bg"] = "blue"
-    GLabel_735["fg"] = "white"
-    GLabel_735["justify"] = "center"
-    GLabel_735["text"] = "so it seems like pythonicOS has crashed? or it just wanted to do this because it could?"
-    GLabel_735.place(x=10,y=50,width=612,height=30)
+# Create an ArgumentParser object
+parser = argparse.ArgumentParser(description='My Script')
 
-    GLabel_544=tk.Label(root)
-    ft = tkFont.Font(family='Times',size=10)
-    GLabel_544["font"] = ft
-    GLabel_544["bg"] = "blue"
-    GLabel_544["fg"] = "white"
-    GLabel_544["justify"] = "center"
-    GLabel_544["text"] = "here is the error message that you got, well if you got any?"
-    GLabel_544.place(x=130,y=100,width=353,height=30)
+# Add an argument for the verbose option
+parser.add_argument('-v', '--verbose', action='store_true', help='Enable verbose mode')
 
-    GLabel_42=tk.Label(root)
-    ft = tkFont.Font(family='Times',size=10)
-    GLabel_42["font"] = ft
-    GLabel_42["bg"] = "blue"
-    GLabel_42["fg"] = "white"
-    GLabel_42["justify"] = "center"
-    GLabel_42["text"] = error
-    GLabel_42.place(x=120,y=170,width=350 ,height=50)
+# Parse the command-line arguments
+args = parser.parse_args()
 
-    GLabel_508=tk.Label(root)
-    ft = tkFont.Font(family='Times',size=10)
-    GLabel_508["font"] = ft
-    GLabel_508["bg"] = "blue"
-    GLabel_508["fg"] = "white"
-    GLabel_508["justify"] = "center"
-    GLabel_508["text"] = "if you could be so great and hit that button on the bottom for me, ill take care of the rest!"
-    GLabel_508.place(x=0,y=240,width=594,height=30)
+# Access the value of the verbose option
+if args.verbose:
+    print("Verbose mode is enabled. Debugging information will be displayed.")
 
-    GLabel_164=tk.Label(root)
-    ft = tkFont.Font(family='Times',size=10)
-    GLabel_164["font"] = ft
-    GLabel_164["bg"] = "blue"
-    GLabel_164["fg"] = "white"
-    GLabel_164["justify"] = "center"
-    GLabel_164["text"] = "if you could before you go, could you please open a issue on "
-    GLabel_164.place(x=0,y=340,width=550,height=30)
+# Rest of your code...
 
-    GLabel_844=tk.Label(root)
-    ft = tkFont.Font(family='Times',size=10)
-    GLabel_844["font"] = ft
-    GLabel_844["bg"] = "blue"
-    GLabel_844["fg"] = "white"
-    GLabel_844["justify"] = "center"
-    GLabel_844["text"] = "cheers!"
-    GLabel_844.place(x=250,y=410,width=70,height=25)
 
-    GLabel_4=tk.Label(root)
-    ft = tkFont.Font(family='Times',size=10)
-    GLabel_4["font"] = ft
-    GLabel_4["bg"] = "blue"
-    GLabel_4["fg"] = "white"
-    GLabel_4["justify"] = "center"
-    GLabel_4["text"] = "github.com/OpenStudioCorp/PythonicOS with your error code please? that will help out alot!"
-    GLabel_4.place(x=10,y=380,width=599,height=30)
-
+def create_app(root,name):
+    root.destroy()
+    subprocess.Popen(['python', 'python/bluescreens/pycrashconfig.py', name])
+    
 def scat():
     print("scat")
 #----------------------------------#
@@ -264,6 +192,15 @@ label.pack()
 
 # Add the custom widget frame to the taskbar
 epios2.pack(side=tk.RIGHT)
+
+epios3 = tk.Frame(taskbar, width=100, height=30, bg='blue')
+
+# Add your custom widget content here
+label = tk.Button(epios3, text=dt, relief=tk.RAISED)
+label.pack()
+
+# Add the custom widget frame to the taskbar
+epios3.pack(side=tk.RIGHT)
 #-----------------------#
 
 
@@ -271,6 +208,8 @@ epios2.pack(side=tk.RIGHT)
 
 #---------------------------------#
 def start_rename(home_dir, label):
+    if args.verbose:
+        print("start_rename")
     entry = tk.Entry(label, relief=tk.FLAT)
     entry.insert(0, label.cget("text"))
     entry.bind("<Return>", lambda event, path=home_dir, entry=entry: finish_rename(path, entry))
@@ -280,6 +219,8 @@ def start_rename(home_dir, label):
     entry.focus()
 
 def finish_rename(home_dir, entry):
+    if args.verbose:
+        print("finish_rename")
     new_filename = entry.get().strip()
     new_home_dir = os.path.join(os.path.dirname(home_dir), new_filename)
 
@@ -289,28 +230,32 @@ def finish_rename(home_dir, entry):
     # Rename the file
     try:
         os.rename(home_dir, new_home_dir)
-        load_files()
+        load_files(home_dir)
     except Exception as e:
     # Log the error message to a file
         #logging.error(str(e))
         return
-    load_files()
+    load_files(home_dir)
     if is_pinned(home_dir):
         unpin_from_taskbar(home_dir)
         pin_to_taskbar(new_home_dir)
-    load_files()
+    load_files(home_dir)
 
 def delete_file(home_dir):
-    load_files()
+    if args.verbose:
+        print("delete_file")
+    load_files(home_dir)
     if os.path.isfile(home_dir):
         os.remove(home_dir)
-        load_files()
+        load_files(home_dir)
         print(f'{home_dir} has been deleted.')
-        load_files()
+        load_files(home_dir)
 
 
 
 def create_file(home_dir):
+    if args.verbose:
+        print("create_file")
     # Create the main window
     root = tk.Tk()
     root.title('File Explorer')
@@ -336,7 +281,7 @@ def create_file(home_dir):
     root_node = treeview.insert('', 'end', text=os.path.basename(home_dir), open=True)
 
     # Add the child nodes to the root node
-    for file in os.listdir(system):
+    for file in os.listdir(home_dir):
         file_path = os.path.join(home_dir, file)
         if os.path.isdir(file_path):
             treeview.insert(root_node, 'end', text=file, open=False)
@@ -381,8 +326,6 @@ def create_file(home_dir):
 
 def create_file_action(home_dir, file_name):
     # Create the file
-    if not os.path.exists(home_dir):
-        os.mkdir(home_dir)
 
     filename = '{}.py'.format(file_name)
 
@@ -390,7 +333,7 @@ def create_file_action(home_dir, file_name):
         file.write('This is the content of {}'.format(filename))
 
     # Reload the file list
-    load_files()
+    load_files(home_dir)
 
 def show_popup(message):
     popup = tk.Tk()
@@ -412,16 +355,13 @@ def show_files_context_menu(event):
         context_menu.add_command(label='Unpin from Taskbar', command=lambda: unpin_from_taskbar(home_dir))
     context_menu.add_command(label='Rename', command=lambda: start_rename(home_dir, label))
     context_menu.add_command(label='Refresh', command=lambda: refresh_code())
-    context_menu.add_command(label='Delete', command=lambda: (delete_file(home_dir), load_files()))
+    context_menu.add_command(label='Delete', command=lambda: (delete_file(home_dir), load_files(home_dir)))
     context_menu.post(event.x_root, event.y_root)
 
-def load_files():
-    home_dir = HOME_DIR
+def load_files(home_dir):
     for widget in desktop.winfo_children():
         widget.destroy()
 
-    if not os.path.exists(home_dir):
-        os.makedirs(home_dir)
 
     if not os.path.isdir(home_dir):
             try:
@@ -469,9 +409,9 @@ def load_files():
             label.grid(row=grid_row, column=grid_column, padx=10, pady=10, sticky='w')
 
 def refresh_code(home_dir):
-    load_files()
+    load_files(home_dir)
 
-load_files()
+
 
 def show_desktop_context_menu(event):
     global file_context_menu
@@ -484,14 +424,13 @@ def show_desktop_context_menu(event):
         file_context_menu.add_command(label='Unpin from Taskbar', command=lambda: unpin_from_taskbar(home_dir))
 
     file_context_menu.add_command(label='New File', command=lambda: create_file(home_dir))
-    file_context_menu.add_command(label='Load Files', command=lambda: load_files())
+    file_context_menu.add_command(label='Load Files', command=lambda: load_files(home_dir))
     file_context_menu.add_command(label='Refresh', command=lambda: refresh_code(home_dir))
-    file_context_menu.add_command(label='Delete', command=lambda: (delete_file(home_dir), load_files()))
+    file_context_menu.add_command(label='Delete', command=lambda: (delete_file(home_dir), load_files(home_dir)))
     file_context_menu.post(event.x_root, event.y_root)
 
 desktop.bind("<Button-3>", show_desktop_context_menu)
-load_files()
-load_files()
+
 def pin_to_taskbar(home_dir):
     if not is_pinned(home_dir):
         taskbar_label = tk.Label(taskbar, text=os.path.basename(home_dir), padx=10)
@@ -502,7 +441,7 @@ def pin_to_taskbar(home_dir):
 
         taskbar_label.bind("<Button-1>", lambda event: open_pinned_file())
         taskbar_label.bind("<Button-3>", lambda event: show_files_context_menu(event))
-        load_files()
+        load_files(home_dir)
 def open_file(home_dir):
     if home_dir:
         subprocess.Popen(['python', 'system/addons/panno.py', home_dir])
@@ -519,12 +458,15 @@ def find_label(home_dir):
     for widget in desktop.winfo_children():
         if isinstance(widget, tk.Label) and widget.cget("text") == os.path.basename(home_dir):
             return widget
-
+def main():
+    load_files(home_dir)    
 def is_pinned(home_dir):
     for widget in taskbar.winfo_children():
         if isinstance(widget, tk.Label) and widget.cget("text") == os.path.basename(home_dir):
             return True
     return False
+load_files(home_dir)
+load_files(home_dir)
 root.mainloop()
-load_files()
-load_files()
+if __name__ == ('__main__'):
+    main()
