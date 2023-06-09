@@ -31,7 +31,7 @@ root = tk.Tk()
 #   unpin_from_taskbar(home_dir)
 #   is_pinned(home_dir)
 #   open_file(home_dir)
-#   load_files(home_dir)
+#   load_files_thread(home_dir)
 #   create_file(home_dir)
 #   create_folder(home_dir)
 #   delete_folder(home_dir)
@@ -60,7 +60,7 @@ root = tk.Tk()
 dt = datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
 # Configure the logging module  
 # Configure the logging module  
-logging.basicConfig(filename=f'error{dt}.log', level=logging.ERROR)
+#logging.basicConfig(filename=f'error{dt}.log', level=logging.ERROR) this is the error log, it will log any errors that happen in the desktop module, the other modules have their own error logs
 
 SYST = 'sys'
 system = 'system'
@@ -230,26 +230,26 @@ def finish_rename(home_dir, entry):
     # Rename the file
     try:
         os.rename(home_dir, new_home_dir)
-        load_files(home_dir)
+        load_files_thread(home_dir)
     except Exception as e:
     # Log the error message to a file
         #logging.error(str(e))
         return
-    load_files(home_dir)
+    load_files_thread(home_dir)
     if is_pinned(home_dir):
         unpin_from_taskbar(home_dir)
         pin_to_taskbar(new_home_dir)
-    load_files(home_dir)
+    load_files_thread(home_dir)
 
 def delete_file(home_dir):
     if args.verbose:
         print("delete_file")
-    load_files(home_dir)
+    load_files_thread(home_dir)
     if os.path.isfile(home_dir):
         os.remove(home_dir)
-        load_files(home_dir)
+        load_files_thread(home_dir)
         print(f'{home_dir} has been deleted.')
-        load_files(home_dir)
+        load_files_thread(home_dir)
 
 
 
@@ -333,7 +333,7 @@ def create_file_action(home_dir, file_name):
         file.write('This is the content of {}'.format(filename))
 
     # Reload the file list
-    load_files(home_dir)
+    load_files_thread(home_dir)
 
 def show_popup(message):
     popup = tk.Tk()
@@ -355,10 +355,11 @@ def show_files_context_menu(event):
         context_menu.add_command(label='Unpin from Taskbar', command=lambda: unpin_from_taskbar(home_dir))
     context_menu.add_command(label='Rename', command=lambda: start_rename(home_dir, label))
     context_menu.add_command(label='Refresh', command=lambda: refresh_code())
-    context_menu.add_command(label='Delete', command=lambda: (delete_file(home_dir), load_files(home_dir)))
+    context_menu.add_command(label='Delete', command=lambda: (delete_file(home_dir), load_files_thread(home_dir)))
     context_menu.post(event.x_root, event.y_root)
-
-def load_files(home_dir):
+def open_file_with_path(path):
+            open_file(path)
+def load_files_thread(home_dir):
     for widget in desktop.winfo_children():
         widget.destroy()
 
@@ -401,17 +402,19 @@ def load_files(home_dir):
                 grid_row += 1
             label.grid(row=grid_row, column=grid_column)
 
-        def open_file_with_path(path):
-            open_file(path)
 
             label.bind("<Button-1>", lambda event, path=file_path: open_file_with_path(path))
             label.bind("<Button-3>", lambda event, path=file_path: show_files_context_menu(event))
             label.grid(row=grid_row, column=grid_column, padx=10, pady=10, sticky='w')
 
 def refresh_code(home_dir):
-    load_files(home_dir)
+    load_files_thread(home_dir)
 
-
+def load_files_threa(home_dir):
+    import threading
+    # create a new thread to run the load_files() function
+    t = threading.Thread(target=load_files_thread(home_dir), args=(home_dir,))
+    t.start()
 
 def show_desktop_context_menu(event):
     global file_context_menu
@@ -424,9 +427,9 @@ def show_desktop_context_menu(event):
         file_context_menu.add_command(label='Unpin from Taskbar', command=lambda: unpin_from_taskbar(home_dir))
 
     file_context_menu.add_command(label='New File', command=lambda: create_file(home_dir))
-    file_context_menu.add_command(label='Load Files', command=lambda: load_files(home_dir))
+    file_context_menu.add_command(label='Load Files', command=lambda: load_files_thread(home_dir))
     file_context_menu.add_command(label='Refresh', command=lambda: refresh_code(home_dir))
-    file_context_menu.add_command(label='Delete', command=lambda: (delete_file(home_dir), load_files(home_dir)))
+    file_context_menu.add_command(label='Delete', command=lambda: (delete_file(home_dir), load_files_thread(home_dir)))
     file_context_menu.post(event.x_root, event.y_root)
 
 desktop.bind("<Button-3>", show_desktop_context_menu)
@@ -441,7 +444,7 @@ def pin_to_taskbar(home_dir):
 
         taskbar_label.bind("<Button-1>", lambda event: open_pinned_file())
         taskbar_label.bind("<Button-3>", lambda event: show_files_context_menu(event))
-        load_files(home_dir)
+        load_files_thread(home_dir)
 def open_file(home_dir):
     if home_dir:
         subprocess.Popen(['python', 'system/addons/panno.py', home_dir])
@@ -459,14 +462,17 @@ def find_label(home_dir):
         if isinstance(widget, tk.Label) and widget.cget("text") == os.path.basename(home_dir):
             return widget
 def main():
-    load_files(home_dir)    
+    load_files_thread(home_dir)    
 def is_pinned(home_dir):
     for widget in taskbar.winfo_children():
         if isinstance(widget, tk.Label) and widget.cget("text") == os.path.basename(home_dir):
             return True
     return False
-load_files(home_dir)
-load_files(home_dir)
+load_files_threa(home_dir)
+print('hello') 
+
 root.mainloop()
+
+
 if __name__ == ('__main__'):
     main()

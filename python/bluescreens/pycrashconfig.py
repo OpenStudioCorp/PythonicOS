@@ -1,6 +1,7 @@
 import tkinter as tk
 import tkinter.font as tkFont
 import subprocess
+import os
 error = "woops! could not detect the config files required to run pythonicOS!"
 class App:
     def __init__(self, root):
@@ -99,8 +100,17 @@ class App:
         GLabel_4["text"] = "github.com/OpenStudioCorp/PythonicOS with your error code please? that will help out alot!"
         GLabel_4.place(x=10,y=380,width=599,height=30)
 
+
+
+
+# run the script using subprocess
     def scat(self):
-        print("scat")
+        root.destroy()
+        parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+
+    # construct the path to the script you want to run
+        script_path = os.path.join(parent_dir, 'PythonicOS.py')
+        subprocess.Popen(['python', script_path])
 
 if __name__ == "__main__":
     root = tk.Tk()
