@@ -4,6 +4,8 @@ import tkinter as tk
 import tkinter.font as tkFont
 import subprocess
 from tkinter import messagebox
+from tkinter import filedialog
+
 import sys
 import time
 import configparser
@@ -57,17 +59,17 @@ root = tk.Tk()
 #-----------------------------------#
 # this part sets up any thing that needs to be setup before the desktop is loaded
 
-dt = datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
+dt = datetime.datetime.now().strftime("%Y-%m-%d")
 # Configure the logging module  
 # Configure the logging module  
 #logging.basicConfig(filename=f'error{dt}.log', level=logging.ERROR) this is the error log, it will log any errors that happen in the desktop module, the other modules have their own error logs
 
 SYST = 'sys'
 system = 'system'
-home_dir = 'system/home/user'
-SYS_BIN = 'system/bin'
-SYS_SCRIPTS = 'system/scripts'
-sys_addr = 'system/addons'
+home_dir = os.path.join('system', 'home', 'user')
+SYS_BIN = os.path.join('system', 'bin')
+SYS_SCRIPTS = os.path.join('system', 'scripts')
+sys_addr = os.path.join('system', 'addons')
 sys_docu = 'system/documents'
 sys_hom_usr_desk = 'system/home/user/desktop'
 sys_hom_usr_doc = 'system/home/user/documents'
@@ -83,11 +85,15 @@ user = os.getlogin() # get the username of the user on a windows, linux, or mac 
 #   this is the config file for the desktop
 #   it is used to set the desktop's background color, taskbar color, and more!
 #----------------------------------#
-if os.path.isfile('python/config.ini'):# check if the config file exists
+
+if os.path.isfile('config.ini'):# check if the config file exists
     try:
         # if it does, load it
+        
+
+    # construct the path to the script you want to run
         config = configparser.ConfigParser()# get the config thing setup
-        config.read('python/config.ini')# read the config file to set the desktop! 
+        config.read('config.ini')# read the config file to set the desktop! 
         # if you want to change the background color or something, modify config.ini
         bkgr = config.get('desktop', 'background')
         tskbr = config.get('desktop', 'taskbar')
@@ -104,7 +110,10 @@ if os.path.isfile('python/config.ini'):# check if the config file exists
         # that is why i have it commented out, because it will fill up your hard drive with error logs
         # there is a way to fix this, but i dont know how to do it 
         # there is more of these aswell in the other modules and in here aswell -charlie!
-
+        process = subprocess.Popen(['python', 'pycrashconfig.py'], stdin=subprocess.PIPE, stdout=subprocess.PIPE)
+        input_string = 'woops! could not read config.ini'
+        process.stdin.write(input_string.encode())
+        process.stdin.flush()
         print("Error loading config.ini. Please check your config.ini file.")
         print("If you do not have a config.ini file, please create one.")
         print("If you do not know how to create a config.ini file, please read the documentation.")
@@ -133,12 +142,12 @@ args = parser.parse_args()
 if args.verbose:
     print("Verbose mode is enabled. Debugging information will be displayed.")
 
-# Rest of your code...
 
 
 def create_app(root,name):
     root.destroy()
-    subprocess.Popen(['python', 'python/bluescreens/pycrashconfig.py', name])
+    subprocess.Popen(['python', 'bluescreens/pycrashconfig.py'])
+
     
 def scat():
     print("scat")
@@ -174,6 +183,10 @@ desktop.pack(expand=True, fill=tk.BOTH)
 def epiOS(root):
     print("Thanks for using PythonicOS!")
     root.quit()
+def epios3():
+    if args.verbose:
+        print("pythonicOS is starting time.py")
+    subprocess.Popen(['python', 'Time.py'])
 # Create a frame for the custom widget
 epios = tk.Frame(taskbar, width=100, height=30, bg='blue')
 
@@ -196,7 +209,7 @@ epios2.pack(side=tk.RIGHT)
 epios3 = tk.Frame(taskbar, width=100, height=30, bg='blue')
 
 # Add your custom widget content here
-label = tk.Button(epios3, text=dt, relief=tk.RAISED)
+label = tk.Button(epios3, text=dt, relief=tk.RAISED, command=lambda: subprocess.Popen(['python', 'Time.py']))
 label.pack()
 
 # Add the custom widget frame to the taskbar
@@ -218,7 +231,44 @@ def start_rename(home_dir, label):
     entry.select_range(0, tk.END)
     entry.focus()
 
+
+def select_folder():
+    # Open a file dialog to select a folder
+    folder_path = filedialog.askdirectory()
+
+    # Navigate to the selected folder
+    os.chdir(folder_path)
+
+    # Get the contents of the folder
+    folder_contents = os.listdir()
+
+    # Create a new frame to display the folder contents
+    folder_frame = tk.Frame(root)
+    folder_frame.pack()
+
+    # Create a canvas to hold the folder contents
+    canvas = tk.Canvas(folder_frame)
+    canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+
+    # Create a scrollbar for the canvas
+    scrollbar = tk.Scrollbar(folder_frame, orient=tk.VERTICAL, command=canvas.yview)
+    scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+
+    # Configure the canvas to use the scrollbar
+    canvas.configure(yscrollcommand=scrollbar.set)
+    canvas.bind('<Configure>', lambda e: canvas.configure(scrollregion=canvas.bbox('all')))
+
+    # Create a new frame to hold the folder contents within the canvas
+    folder_contents_frame = tk.Frame(canvas)
+    canvas.create_window((0, 0), window=folder_contents_frame, anchor='nw')
+
+    # Create a label for each item in the folder
+    for item in folder_contents:
+        label = tk.Label(folder_contents_frame, text=item)
+        label.pack()
+
 def finish_rename(home_dir, entry):
+    load_files_thread(home_dir)
     if args.verbose:
         print("finish_rename")
     new_filename = entry.get().strip()
@@ -355,10 +405,74 @@ def show_files_context_menu(event):
         context_menu.add_command(label='Unpin from Taskbar', command=lambda: unpin_from_taskbar(home_dir))
     context_menu.add_command(label='Rename', command=lambda: start_rename(home_dir, label))
     context_menu.add_command(label='Refresh', command=lambda: refresh_code())
+    context_menu.add_command(label='open folder', command=lambda: open_folder(event))
     context_menu.add_command(label='Delete', command=lambda: (delete_file(home_dir), load_files_thread(home_dir)))
     context_menu.post(event.x_root, event.y_root)
 def open_file_with_path(path):
             open_file(path)
+
+def open_folder(event):
+    # Get the label that was clicked
+    label = event.widget
+
+    # Get the text of the label
+    text = label.cget('text')
+
+    # Check if the label text ends with a '/'
+    if text.endswith('/'):
+        # Get the folder path
+        folder_path = os.path.join(os.getcwd(), text[:-1])
+
+        # Create a new window to display the folder contents
+        folder_window = tk.Toplevel(root)  
+
+        # Create a new frame to hold the folder contents
+        folder_frame = tk.Frame(folder_window)
+        folder_frame.pack()
+
+        # Create a canvas to hold the folder contents
+        canvas = tk.Canvas(folder_frame)
+        canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+
+        # Create a scrollbar for the canvas
+        scrollbar = tk.Scrollbar(folder_frame, orient=tk.VERTICAL, command=canvas.yview)
+        scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+
+        # Configure the canvas to use the scrollbar
+        canvas.configure(yscrollcommand=scrollbar.set)
+        canvas.bind('<Configure>', lambda e: canvas.configure(scrollregion=canvas.bbox('all')))
+
+        # Create a new frame to hold the folder contents within the canvas
+        folder_contents_frame = tk.Frame(canvas)
+        canvas.create_window((0, 0), window=folder_contents_frame, anchor='nw')
+
+        # Get the contents of the folder
+        folder_contents = os.listdir(folder_path)
+
+        # Create a label for each item in the folder
+        for item in folder_contents:
+            label = tk.Label(folder_contents_frame, text=item)
+            label.pack()
+
+            # If the item is a folder, add a '/' to the label text
+            if os.path.isdir(os.path.join(folder_path, item)):
+                label.configure(text=item + '/')
+
+        # Set the title of the folder window
+        folder_window.title(folder_path)
+
+        # Create a label for each item in the folder
+        for item in folder_contents:
+            label = tk.Label(folder_frame, text=item)
+            label.pack()
+
+            # If the item is a folder, add a '/' to the label text
+            if os.path.isdir(os.path.join(folder_path, item)):
+                label.configure(text=item + '/')
+
+            # Bind the <Button-1> event to the label
+            label.bind('<Button-1>', open_folder)
+
 def load_files_thread(home_dir):
     for widget in desktop.winfo_children():
         widget.destroy()
@@ -378,7 +492,11 @@ def load_files_thread(home_dir):
         for file in files:
             file_path = os.path.join(home_dir, file)
             label = tk.Label(desktop, text=file, pady=10)
-
+            if os.path.isdir(file_path):
+                label.configure(text=file + '/')
+                # Set the background color
+                label.configure(background='lightgreen')
+                
             # Get the file extension
             _, extension = os.path.splitext(file_path)
 
@@ -388,14 +506,15 @@ def load_files_thread(home_dir):
             elif extension == '.html':
                 label.configure(background='red')
             elif extension == '.py':
-                label.configure(background='yellow')
+                label.configure(background='lightblue')
             elif extension == '.css':
                 label.configure(background='blue')
             elif extension == '.js':
                 label.configure(background='orange')
             elif extension == '.txt':
                 label.configure(background='white')
-
+            elif extension == '/':
+                label.configure(background='lightgreen')
             grid_column += 1
             if grid_column == grid_columns:
                 grid_column = 0
@@ -409,7 +528,9 @@ def load_files_thread(home_dir):
 
 def refresh_code(home_dir):
     load_files_thread(home_dir)
-
+def open_dir(file_path):
+    if os.path.isdir(file_path):
+        subprocess.Popen(f'explorer {file_path}')
 def load_files_threa(home_dir):
     import threading
     # create a new thread to run the load_files() function
@@ -438,17 +559,24 @@ def pin_to_taskbar(home_dir):
     if not is_pinned(home_dir):
         taskbar_label = tk.Label(taskbar, text=os.path.basename(home_dir), padx=10)
         taskbar_label.pack(side=tk.LEFT)
-
+        load_files_thread(home_dir)
         def open_pinned_file(path=home_dir):
             open_file(path)
-
+            load_files_thread(home_dir)
         taskbar_label.bind("<Button-1>", lambda event: open_pinned_file())
         taskbar_label.bind("<Button-3>", lambda event: show_files_context_menu(event))
-        load_files_thread(home_dir)
+    load_files_thread(home_dir)
 def open_file(home_dir):
     if home_dir:
-        subprocess.Popen(['python', 'system/addons/panno.py', home_dir])
-        print(home_dir)
+        if os.path.isdir(home_dir):
+            if os.name == 'nt':
+                subprocess.Popen(['explorer', home_dir])
+            elif os.name == 'posix':
+                subprocess.Popen(['xdg-open', home_dir])
+        else:
+            subprocess.Popen(['python', 'system/addons/panno.py', home_dir])
+            if args.verbose:
+                print(home_dir)
     else:
         print("No file path provided.")
 
@@ -456,7 +584,7 @@ def unpin_from_taskbar(home_dir):
     for widget in taskbar.winfo_children():
         if isinstance(widget, tk.Label) and widget.cget("text") == os.path.basename(home_dir):
             widget.destroy()
-
+            load_files_threa(home_dir)
 def find_label(home_dir):
     for widget in desktop.winfo_children():
         if isinstance(widget, tk.Label) and widget.cget("text") == os.path.basename(home_dir):

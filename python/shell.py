@@ -56,7 +56,7 @@ def senddata():
 
 
 def StartOS():
-    subprocess.Popen('PythonicOS.exe')
+    subprocess.Popen('python','python/PythonicOS.py')
 
 
 def my_shell():
