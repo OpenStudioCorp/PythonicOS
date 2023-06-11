@@ -5,7 +5,7 @@ import tkinter.font as tkFont
 import subprocess
 from tkinter import messagebox
 from tkinter import filedialog
-
+import ctypes
 import sys
 import time
 import configparser
@@ -18,6 +18,7 @@ import logging
 import argparse
 from tkinter import ttk  # Normal Tk widgets don't look good on Mac and Linux, and also some of the code in this file uses ttk, idk why?
 root = tk.Tk()
+
 # subprocess.call('setup.py')
 #-----------------------------------#
 #   welcome to PythonicOS's desktop module
@@ -88,6 +89,7 @@ user = os.getlogin() # get the username of the user on a windows, linux, or mac 
 
 if os.path.isfile('config.ini'):# check if the config file exists
     try:
+        
         # if it does, load it
         
 
@@ -145,11 +147,14 @@ if args.verbose:
 
 
 def create_app(root,name):
+    if args.verbose:
+        print('woops! could not read config.ini')
     root.destroy()
     subprocess.Popen(['python', 'bluescreens/pycrashconfig.py'])
 
-    
 def scat():
+    if args.verbose:
+        print('SUPER CAT!!!!!')
     print("scat")
 #----------------------------------#
 time.sleep(1)
@@ -179,8 +184,17 @@ desktop = tk.Frame(root, bg=bkgr)
 #----------------------------------#
 
 desktop.pack(expand=True, fill=tk.BOTH)
+#----------------------------------#
+#   desktop modules
+#   this is where you can add modules to the desktop
+#   to add a module, copy and paste the code below
+#   and change the name of the module to the name of the module you want to add
+#   then, change the command to the command you want to run when the module is clicked
+#   then, change the text to the text you want to display on the module
 
 def epiOS(root):
+    if args.verbose:
+        print('goodbye!')
     print("Thanks for using PythonicOS!")
     root.quit()
 def epios3():
@@ -233,6 +247,8 @@ def start_rename(home_dir, label):
 
 
 def select_folder():
+    if args.verbose:
+        print('selcect_folder')
     # Open a file dialog to select a folder
     folder_path = filedialog.askdirectory()
 
@@ -376,7 +392,8 @@ def create_file(home_dir):
 
 def create_file_action(home_dir, file_name):
     # Create the file
-
+    if args.verbose:
+        print('create_file_action')
     filename = '{}.py'.format(file_name)
 
     with open(os.path.join(home_dir, filename), 'w') as file:
@@ -386,6 +403,8 @@ def create_file_action(home_dir, file_name):
     load_files_thread(home_dir)
 
 def show_popup(message):
+    if args.verbose:
+        print('show_popup')
     popup = tk.Tk()
     popup.wm_title("Popup")
     label = tk.Label(popup, text=message)
@@ -394,6 +413,8 @@ def show_popup(message):
     popup.mainloop()
 
 def show_files_context_menu(event):
+    if args.verbose:
+        print('show_files_context_menu')
     context_menu = tk.Menu(desktop, tearoff=0)
 
     label = event.widget
@@ -409,9 +430,13 @@ def show_files_context_menu(event):
     context_menu.add_command(label='Delete', command=lambda: (delete_file(home_dir), load_files_thread(home_dir)))
     context_menu.post(event.x_root, event.y_root)
 def open_file_with_path(path):
+            if args.verbose:
+                print('open_file_with_path')
             open_file(path)
 
 def open_folder(event):
+    if args.verbose:
+        print('open_folder')
     # Get the label that was clicked
     label = event.widget
 
@@ -474,6 +499,8 @@ def open_folder(event):
             label.bind('<Button-1>', open_folder)
 
 def load_files_thread(home_dir):
+    if args.verbose:
+        print('loading files')
     for widget in desktop.winfo_children():
         widget.destroy()
 
@@ -527,7 +554,10 @@ def load_files_thread(home_dir):
             label.grid(row=grid_row, column=grid_column, padx=10, pady=10, sticky='w')
 
 def refresh_code(home_dir):
+    if args.verbose:
+        print('refreshing code')
     load_files_thread(home_dir)
+
 def open_dir(file_path):
     if os.path.isdir(file_path):
         subprocess.Popen(f'explorer {file_path}')
@@ -599,8 +629,22 @@ def is_pinned(home_dir):
 load_files_threa(home_dir)
 print('hello') 
 
+
+def vmain():
+    if args.verbose:
+        print('')
+        inputs= input()
+        print(f'hallo! {user} \n welcome to the verbose debug mode! \n when running PythonicOS in verbose mode, \n PythonicOS will output every function when it runs to the console \n this is a way to debug PythonicOS when built and running \n to exit verbose mode, type "exit"')
+        if inputs == 'exit':
+            root.destroy()
+        else:
+            main()
+
 root.mainloop()
 
 
 if __name__ == ('__main__'):
-    main()
+    if args.verbose:
+        vmain()
+    else:
+        main()
