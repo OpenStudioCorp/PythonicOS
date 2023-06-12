@@ -9,7 +9,7 @@ def print_greetings():
     '''
     Print a welcome message to the user.
     '''
-    print("Thanks for using PythonicShell!")
+    print("Welcome to PythonicOS!")
     print("Version 1.0")
 
 
@@ -56,7 +56,115 @@ def senddata():
 
 
 def StartOS():
-    subprocess.Popen('PythonicOS.exe')
+    subprocess.Popen('python','python/PythonicOS.py')
+def ls():
+    '''
+    List the contents of the current working directory.
+    '''
+    print(os.listdir(os.getcwd()))
+def rm():
+    '''
+    Remove a file in the current working directory.
+    '''
+    filename = input("Enter the name of the file to remove: ")
+    path = os.path.join(os.getcwd(), filename)
+    if not os.path.exists(path):
+        print("File '%s' does not exist." % filename)
+        return
+
+    try:
+        os.remove(path)
+        print("File '%s' removed successfully." % filename)
+    except OSError as error:
+        print("Error removing file '%s': %s" % (filename, error))
+
+def rmdir():
+    '''
+    Remove a directory in the current working directory.
+    '''
+    directory_name = input("Enter the name of the directory to remove: ")
+    path = os.path.join(os.getcwd(), directory_name)
+    if not os.path.exists(path):
+        print("Directory '%s' does not exist." % directory_name)
+        return
+
+    try:
+        os.rmdir(path)
+        print("Directory '%s' removed successfully." % directory_name)
+    except OSError as error:
+        print("Error removing directory '%s': %s" % (directory_name, error))
+
+def mv():
+    '''
+    Move a file or directory in the current working directory.
+    '''
+    source = input("Enter the name of the file or directory to move: ")
+    destination = input("Enter the name of the destination: ")
+    source_path = os.path.join(os.getcwd(), source)
+    destination_path = os.path.join(os.getcwd(), destination)
+    if not os.path.exists(source_path):
+        print("File or directory '%s' does not exist." % source)
+        return
+
+    try:
+        os.rename(source_path, destination_path)
+        print("File or directory '%s' moved successfully." % source)
+    except OSError as error:
+        print("Error moving file or directory '%s': %s" % (source, error))
+
+def cp():
+    '''
+    Copy a file or directory in the current working directory.
+    '''
+    source = input("Enter the name of the file or directory to copy: ")
+    destination = input("Enter the name of the destination: ")
+    source_path = os.path.join(os.getcwd(), source)
+    destination_path = os.path.join(os.getcwd(), destination)
+    if not os.path.exists(source_path):
+        print("File or directory '%s' does not exist." % source)
+        return
+
+    try:
+        shutil.copy(source_path, destination_path)
+        print("File or directory '%s' copied successfully." % source)
+    except OSError as error:
+        print("Error copying file or directory '%s': %s" % (source, error))
+
+def touch():
+    '''
+    Create a new file in the current working directory.
+    '''
+    filename = input("Enter the name of the file to create: ")
+    path = os.path.join(os.getcwd(), filename)
+
+    try:
+        open(path, 'a').close()
+        print("File '%s' created successfully." % filename)
+    except OSError as error:
+        print("Error creating file '%s': %s" % (filename, error))
+
+def cat():
+    '''
+    Display the contents of a file in the current working directory.
+    '''
+    filename = input("Enter the name of the file to display: ")
+    path = os.path.join(os.getcwd(), filename)
+    if not os.path.exists(path):
+        print("File '%s' does not exist." % filename)
+        return
+
+    try:
+        with open(path, 'r') as file:
+            print(file.read())
+    except OSError as error:
+        print("Error displaying file '%s': %s" % (filename, error))
+
+def pwd():
+    '''
+    Print the current working directory.
+    '''
+    print(os.getcwd())
+    
 
 
 def my_shell():
@@ -88,6 +196,8 @@ def my_shell():
             StartOS()
         elif tokens[0] == "time":
             subprocess.call(['python', 'python/time.py'])
+        elif tokens[0] == "date":
+            subprocess.Popen(['python', 'python/time.py'])
         else:
             print(f"{tokens[0]}: command not found")
 
