@@ -68,6 +68,7 @@ dt = datetime.datetime.now().strftime("%Y-%m-%d")
 SYST = 'sys'
 system = 'system'
 home_dir = os.path.join('system', 'home', 'user')
+home_dir2 = os.path.join('system')
 SYS_BIN = os.path.join('system', 'bin')
 SYS_SCRIPTS = os.path.join('system', 'scripts')
 sys_addr = os.path.join('system', 'addons')
@@ -157,14 +158,14 @@ def scat():
         print('SUPER CAT!!!!!')
     print("scat")
 #----------------------------------#
-time.sleep(1)
-print("Loading PythonicOS.")
-time.sleep(1)
-print("Loading desktop..")
-time.sleep(1)
-print("Loading desktop modules...")
-time.sleep(1)
-print(f"Welcome to PythonicOS! {user}")
+# time.sleep(1)
+# print("Loading PythonicOS.")
+# time.sleep(1)
+# print("Loading desktop..")
+# time.sleep(1)
+# print("Loading desktop modules...")
+# time.sleep(1)
+# print(f"Welcome to PythonicOS! {user}")
 
 
 root.title(ttl)
@@ -317,9 +318,16 @@ def delete_file(home_dir):
         print(f'{home_dir} has been deleted.')
         load_files_thread(home_dir)
 
+def create_treeview(treeview, parent_node, parent_path):
+    for file in os.listdir(parent_path):
+        file_path = os.path.join(parent_path, file)
+        if os.path.isdir(file_path):
+            node = treeview.insert(parent_node, 'end', text=file, open=False)
+            create_treeview(treeview, node, file_path)
+        else:
+            treeview.insert(parent_node, 'end', text=file)
 
-
-def create_file(home_dir):
+def create_file(home_dir2):
     if args.verbose:
         print("create_file")
     # Create the main window
@@ -336,7 +344,7 @@ def create_file(home_dir):
     file_frame.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
 
     # Create a label for the current directory
-    current_dir_label = tk.Label(tree_frame, text='Current Directory: {}'.format(home_dir))
+    current_dir_label = tk.Label(tree_frame, text='Current Directory: {}'.format(home_dir2))
     current_dir_label.pack(side=tk.TOP, padx=10, pady=10)
 
     # Create a treeview widget for the directory tree
@@ -344,13 +352,16 @@ def create_file(home_dir):
     treeview.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
 
     # Add the root node to the treeview
-    root_node = treeview.insert('', 'end', text=os.path.basename(home_dir), open=True)
+    root_node = treeview.insert('', 'end', text=os.path.basename(home_dir2), open=True)
 
     # Add the child nodes to the root node
     for file in os.listdir(home_dir):
         file_path = os.path.join(home_dir, file)
-        if os.path.isdir(file_path):
-            treeview.insert(root_node, 'end', text=file, open=False)
+    if os.path.isdir(file_path):
+        node = treeview.insert(root_node, 'end', text=file, open=False)
+        create_treeview(treeview, node, file_path)
+    else:
+        treeview.insert(root_node, 'end', text=file)
 
     # Create a scrollbar for the treeview
     scrollbar = tk.Scrollbar(tree_frame)
@@ -377,7 +388,7 @@ def create_file(home_dir):
     file_name_entry.pack(side=tk.TOP, padx=10, pady=10)
 
     # Create a button to create the file
-    create_button = tk.Button(file_frame, text='Create File', command=lambda: create_file_action(home_dir, file_name_entry.get()))
+    create_button = tk.Button(file_frame, text='Create File', command=lambda: create_file_action(home_dir2, file_name_entry.get()))
     create_button.pack(side=tk.TOP, padx=10, pady=10)
 
     # Create a button to close the window
@@ -390,7 +401,7 @@ def create_file(home_dir):
     # Start the main event loop
     root.mainloop()
 
-def create_file_action(home_dir, file_name):
+def create_file_action(home_dir2, file_name):
     # Create the file
     if args.verbose:
         print('create_file_action')
@@ -446,7 +457,7 @@ def open_folder(event):
     # Check if the label text ends with a '/'
     if text.endswith('/'):
         # Get the folder path
-        folder_path = os.path.join(os.getcwd(), text[:-1])
+        folder_path = os.path.join(os.getcwd(),"system", text[:-1])
 
         # Create a new window to display the folder contents
         folder_window = tk.Toplevel(root)  
@@ -476,12 +487,35 @@ def open_folder(event):
 
         # Create a label for each item in the folder
         for item in folder_contents:
+            # Split the file name and extension
+            name, ext = os.path.splitext(item)
+
+            # Create a label for the item
             label = tk.Label(folder_contents_frame, text=item)
+
+            # Add an image icon to the left of the label based on the file extension
+            if ext == '.txt':
+                icon = tk.PhotoImage(file='system/bin/ClosedFolder-0.png')
+            elif ext == '.pdf':
+                icon = tk.PhotoImage(file='system/bin/ClosedFolder-0.png')
+            elif ext == '.png':
+                icon = tk.PhotoImage(file='system/bin/ClosedFolder-0.png')
+            else: os.path.isdir(folder_path)
+            icon = tk.PhotoImage(file='system/bin/ClosedFolder-0.png')
+            label.image = icon
+            label.configure(image=icon, compound='left')
+
             label.pack()
 
             # If the item is a folder, add a '/' to the label text
             if os.path.isdir(os.path.join(folder_path, item)):
                 label.configure(text=item + '/')
+
+            # Bind the <Button-1> event to the label
+            label.bind('<Button-1>', open_folder)
+
+            # Bind the <Button-3> event to the label
+            label.bind('<Button-3>', lambda e: show_menu(e))
 
         # Set the title of the folder window
         folder_window.title(folder_path)
@@ -497,6 +531,21 @@ def open_folder(event):
 
             # Bind the <Button-1> event to the label
             label.bind('<Button-1>', open_folder)
+
+            # Bind the <Button-3> event to the label
+            label.bind('<Button-3>', lambda e: show_menu(e))
+
+def show_menu(event):
+    # Create a new menu object
+    menu = tk.Menu(root, tearoff=0)
+
+    # Add menu items
+    menu.add_command(label="Copy")
+    menu.add_command(label="Cut")
+    menu.add_command(label="Paste")
+
+    # Display the menu at the mouse position
+    menu.tk_popup(event.x_root, event.y_root)
 
 def load_files_thread(home_dir):
     if args.verbose:
@@ -529,7 +578,7 @@ def load_files_thread(home_dir):
 
             # Set the background color based on the file extension
             if extension == '.cs':
-                label.configure(background='darkblue')
+                label.configure(background='black')
             elif extension == '.html':
                 label.configure(background='red')
             elif extension == '.py':
@@ -577,7 +626,7 @@ def show_desktop_context_menu(event):
     if is_pinned(home_dir):
         file_context_menu.add_command(label='Unpin from Taskbar', command=lambda: unpin_from_taskbar(home_dir))
 
-    file_context_menu.add_command(label='New File', command=lambda: create_file(home_dir))
+    file_context_menu.add_command(label='New File', command=lambda: create_file(home_dir2))
     file_context_menu.add_command(label='Load Files', command=lambda: load_files_thread(home_dir))
     file_context_menu.add_command(label='Refresh', command=lambda: refresh_code(home_dir))
     file_context_menu.add_command(label='Delete', command=lambda: (delete_file(home_dir), load_files_thread(home_dir)))

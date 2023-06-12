@@ -7,37 +7,32 @@ pycrashconfig = os.path.join(os.path.dirname(__file__), 'scripts', 'bluescreens'
 pycrashnone = os.path.join(os.path.dirname(__file__), 'scripts', 'bluescreens', 'py_crash_none.py')
 pycrashos = os.path.join(os.path.dirname(__file__), 'scripts', 'bluescreens', 'py_crash_os.py')
 pycrashshell = os.path.join(os.path.dirname(__file__), 'scripts', 'bluescreens', 'py_crash_shell.py')
+home_dirs = os.path.dirname(os.path.abspath(__file__))
 
-
-DIRS = [
-    'sys'
-    'system',
-    'system/home',
-    'system/bin',
-    'system/scripts',
-    'system/addons',
-    'system/documents',
-    'system/home/user',
-    'system/home/user/documents',
-    'system/home/user/documents/projects',
-    'system/logs'
-    'system/welcome'
-    'system/welcome/bin'
-    'mount'
-]
-
-syst = 'sys'
-system = 'system'
-sys_home = 'system/home'
-sys_bin = 'system/bin'
-sys_scripts = 'system/scripts'
-sys_addr = 'system/addons'
-sys_docu = 'system/documents'
-sys_hom_usr = 'system/home/user'
-sys_hom_usr_doc = 'system/home/user/documents'
-sys_hom_usr_doc_pro = 'system/home/user/documents/projects'
-sys_logs = 'system/logs'
-sys_wel = 'system/welcome'
-sys_wel_bin = 'system/welcome/bin'
-mount = 'mount'
-
+py = os.path.join(home_dirs,'system', 'bin', 'Computer.ico') 
+pyc = os.path.join(home_dirs,'system', 'bin', 'Computer.ico') 
+html = os.path.join(home_dirs,'system', 'bin', 'Computer.ico') 
+css = os.path.join(home_dirs,'system', 'bin', 'Computer.ico') 
+js = os.path.join(home_dirs,'system', 'bin', 'Computer.ico') 
+php = os.path.join(home_dirs,'system', 'bin', 'Computer.ico') 
+java = os.path.join(home_dirs,'system', 'bin', 'Computer.ico') 
+c = os.path.join(home_dirs,'system', 'bin', 'Computer.ico') 
+cpp = os.path.join(home_dirs,'system', 'bin', 'Computer.ico') 
+csharp =os.path.join(home_dirs,'system', 'bin', 'Computer.ico') 
+ruby = os.path.join(home_dirs,'system', 'bin', 'Computer.ico') 
+perl = os.path.join(home_dirs,'system', 'bin', 'Computer.ico') 
+go = os.path.join(home_dirs,'system', 'bin', 'Computer.ico') 
+swift = os.path.join(home_dirs,'system', 'bin', 'Computer.ico') 
+sql = os.path.join(home_dirs,'system', 'bin', 'Computer.ico') 
+xml =os.path.join(home_dirs,'system', 'bin', 'Computer.ico') 
+json = os.path.join(home_dirs,'system', 'bin', 'Computer.ico') 
+txt = os.path.join(home_dirs,'system', 'bin', 'Computer.ico') 
+md = os.path.join(home_dirs,'system', 'bin', 'Computer.ico') 
+bat = os.path.join(home_dirs,'system', 'bin', 'Computer.ico') 
+sh = os.path.join(home_dirs,'system', 'bin', 'Computer.ico') 
+exe = os.path.join(home_dirs,'system', 'bin', 'Computer.ico') 
+dll = os.path.join(home_dirs,'system', 'bin', 'Computer.ico') 
+jar = os.path.join(home_dirs,'system', 'bin', 'Computer.ico') 
+folder = os.path.join(home_dirs,'system', 'bin', 'Computer.ico') 
+cs = os.path.join(home_dirs,'system', 'bin', 'Computer.ico') 
+print(py)

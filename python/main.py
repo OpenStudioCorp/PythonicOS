@@ -6,7 +6,7 @@ import platform
 from towii import pydata1, pydata2,time1
 
 def startcmd():
-        subprocess.call('shell.exe',)
+        subprocess.call(['python','shell.py'])
 
 def timeis():
     secconds = time.time()

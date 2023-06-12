@@ -92,11 +92,11 @@ def display_clock():
 # Create the tkinter window
 root = tk.Tk()
 root.title("Digital Clock")
-
+root.configure(bg="black")
 # Create a label to display the time
 time_label = tk.Label(root, font=("Courier", 14), justify="center")
 time_label.pack()
-
+time_label.configure(bg="grey")
 # Start the clock
 display_clock()
 
