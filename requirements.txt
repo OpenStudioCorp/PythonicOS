@@ -205,7 +205,7 @@ tokenizers==0.13.3
 toolz==0.12.0
 torch==2.0.1
 tqdm==4.65.0
-transformers==4.29.2
+transformers==4.30.0
 trio==0.22.0
 trio-websocket==0.10.2
 tweepy==4.14.0
