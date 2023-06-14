@@ -15,7 +15,7 @@ import socket
 # you can only recive from pydata1, and only send from pydata2
 #
 #
-#
+# does this even work? - h4rl
 #
 #
 #

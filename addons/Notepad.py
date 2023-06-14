@@ -6,9 +6,9 @@ from tkinter.filedialog import *
 #-----------------------------------------#
 #this notepad applacation was made by six519
 # https://github.com/six519/Python-Notepad
-# this program plugin change applys the origonal creators repos licence.md file
-# any addons added to PythonicOS shall make PythonicOS free and open source
-#
+# This program plugin change applies the original creators repos license.md file
+# Any addons added to PythonicOS shall make PythonicOS free and open source
+# Great that you actually credited the original creator on this one :) -h4rl
 #
 #-----------------------------------------#
 

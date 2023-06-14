@@ -1,5 +1,5 @@
 import curses
-
+# ??
 def draw_desktop(stdscr):
     stdscr.clear()
     stdscr.addstr(0, 0, "Desktop")

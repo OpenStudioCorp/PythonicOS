@@ -1,11 +1,11 @@
 # loginscreen.py
+# seems unsafe - h4rl
 import subprocess
 import tkinter as tk
 import configparser
 import os
 import argparse
 import configparser
-import file
 from file import usrpass,config_login,shell
 root = tk.Tk()
 

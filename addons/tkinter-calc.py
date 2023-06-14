@@ -1,10 +1,10 @@
 import tkinter as tk
 #-----------------------------------------#
-#this notepad applacation was made by six519
-# https://github.com/six519/Python-Notepad
-# this program plugin change applys the origonal creators repos licence.md file
-# any addons added to desktopy shall make desktopy free and open source
 #
+# 
+# Who made this? - H4rl
+# 
+# 
 #
 #-----------------------------------------#
 

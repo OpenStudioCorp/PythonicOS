@@ -8,3 +8,5 @@ def stop():
     playsound('stop.mp3')
 def fearofdark1():
     playsound('mp3/fearofdark1.mp3')
+
+# like huh? isn't playsound broken?
