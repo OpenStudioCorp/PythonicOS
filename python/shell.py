@@ -2,7 +2,7 @@ import os
 import subprocess
 import tkinter
 from tkinter import messagebox
-from towii import pydata1, pydata2
+import shutil
 
 
 def print_greetings():
@@ -17,8 +17,30 @@ def print_help():
     print("Here are the available commands:")
     print("cd <directory>: Change current working directory to <directory>")
     print("help: Display this help message")
-    print("exit: Exit MyShell")
+    print("exit: Exit PythonicOS")
+    print("mkdir: Create a new directory")
+    print("editfile: Edit a file")
+    print("senddata: Send data to the other computer")
+    print("ls: List the contents of the current working directory")
+    print("rm: Remove a file")
+    print("rmdir: Remove a directory")
+    print("mv: Move a file or directory")
 
+def cd():
+    '''
+    Change the current working directory.
+    '''
+    directory_name = input("Enter the name of the directory to change to: ")
+    path = os.path.join(os.getcwd(), directory_name)
+    if not os.path.exists(path):
+        print("Directory '%s' does not exist." % directory_name)
+        return
+
+    try:
+        os.chdir(path)
+        print("Current working directory changed to '%s'." % directory_name)
+    except OSError as error:
+        print("Error changing directory '%s': %s" % (directory_name, error))
 
 def mkdir():
     '''
@@ -194,6 +216,35 @@ def my_shell():
             editfile()
         elif tokens[0] == "start":
             StartOS()
+        elif tokens[0] == "ls":
+            ls()
+        elif tokens[0] == "rm":
+            rm()
+        elif tokens[0] == "rmdir":
+            rmdir()
+        elif tokens[0] == "pwd":
+            pwd()
+        elif tokens[0] == "cp":
+            cp()
+        elif tokens[0] == "cat":
+            cat()
+        # elif tokens[0] == "rmdir":
+        #     rmdir()
+        # elif tokens[0] == "rmdir":
+        #     rmdir()
+        # elif tokens[0] == "rmdir":
+        #     rmdir()
+        # elif tokens[0] == "rmdir":
+        #     rmdir()
+        # elif tokens[0] == "rmdir":
+        #     rmdir()
+        # elif tokens[0] == "rmdir":
+        #     rmdir()
+        # elif tokens[0] == "rmdir":
+        #     rmdir()
+        # elif tokens[0] == "rmdir":
+        #     rmdir()
+
         elif tokens[0] == "time":
             subprocess.call(['python', 'python/time.py'])
         elif tokens[0] == "date":

@@ -5,6 +5,7 @@ import tkinter.font as tkFont
 import subprocess
 from tkinter import messagebox
 from tkinter import filedialog
+from tkinter import ttk
 import ctypes
 import sys
 import time
@@ -174,6 +175,9 @@ if tskbr == 'True':
     try:
         taskbar = tk.Frame(root, height=taskbar_height, bg=taskbar_color)
         taskbar.pack(side=tk.TOP, fill=tk.X)
+
+        taskbar2 = tk.Frame(root, height=10, bg=taskbar_color)
+        taskbar2.pack(side=tk.TOP, fill=tk.X)
     except Exception as e:
     # Log the error message to a file
         #logging.error(str(e))
@@ -203,32 +207,102 @@ def epios3():
         print("pythonicOS is starting time.py")
     subprocess.Popen(['python', 'Time.py'])
 # Create a frame for the custom widget
-epios = tk.Frame(taskbar, width=100, height=30, bg='blue')
+epios = tk.Frame(taskbar2, width=100, height=30, bg='blue')
 
 # Add your custom widget content here
-label = tk.Button(epios, text='Exit', relief=tk.RAISED, command=lambda: epiOS(root))
+label = ttk.Button(epios, text='Exit', command=lambda: epiOS(root))
 label.pack()
 
 # Add the custom widget frame to the taskbar
 epios.pack(side=tk.RIGHT)
 # Create a frame for the custom widget
-epios2 = tk.Frame(taskbar, width=100, height=30, bg='blue')
+epios2 = tk.Frame(taskbar2, width=100, height=30, bg='blue')
 
 # Add your custom widget content here
-label = tk.Button(epios2, text='crash', relief=tk.RAISED, command=lambda: create_app(root, "PythonicOS"))
+label = ttk.Button(epios2, text='crash', command=lambda: create_app(root, "PythonicOS"))
 label.pack()
 
 # Add the custom widget frame to the taskbar
 epios2.pack(side=tk.RIGHT)
 
-epios3 = tk.Frame(taskbar, width=100, height=30, bg='blue')
+epios3 = tk.Frame(taskbar2, width=100, height=30, bg='blue')
 
 # Add your custom widget content here
-label = tk.Button(epios3, text=dt, relief=tk.RAISED, command=lambda: subprocess.Popen(['python', 'Time.py']))
+label = ttk.Button(epios3, text=dt, command=lambda: subprocess.Popen(['python', 'Time.py']))
 label.pack()
 
 # Add the custom widget frame to the taskbar
 epios3.pack(side=tk.RIGHT)
+
+
+epios4 = tk.Frame(taskbar2, width=100, height=30, bg='blue')
+
+# Add your custom widget content here
+label = ttk.Button(epios4, text='', command=lambda: subprocess.Popen(['python', 'Time.py']))
+label.pack()
+
+# Add the custom widget frame to the taskbar
+epios4.pack(side=tk.RIGHT)
+
+
+epios5 = tk.Frame(taskbar2, width=100, height=30, bg='blue')
+
+ # Add your custom widget content here
+label = ttk.Button(epios5, text=dt, command=lambda: subprocess.Popen(['python', 'Time.py']))
+label.pack()
+
+ # Add the custom widget frame to the taskbar
+epios5.pack(side=tk.RIGHT)
+
+
+# epios6 = tk.Frame(taskbar2, width=100, height=30, bg='blue')
+
+# # Add your custom widget content here
+# label = ttk.Button(epios6, text=dt, relief=tk.RAISED, command=lambda: subprocess.Popen(['python', 'Time.py']))
+# label.pack()
+
+# # Add the custom widget frame to the taskbar
+# epios6.pack(side=tk.RIGHT)
+
+
+# epios7 = tk.Frame(taskbar2, width=100, height=30, bg='blue')
+
+# # Add your custom widget content here
+# label = ttk.Button(epios3, text=dt, relief=tk.RAISED, command=lambda: subprocess.Popen(['python', 'Time.py']))
+# label.pack()
+
+# # Add the custom widget frame to the taskbar
+# epios7.pack(side=tk.RIGHT)
+
+
+# epios8 = tk.Frame(taskbar2, width=100, height=30, bg='blue')
+
+# # Add your custom widget content here
+# label = ttk.Button(epios3, text=dt, relief=tk.RAISED, command=lambda: subprocess.Popen(['python', 'Time.py']))
+# label.pack()
+
+# # Add the custom widget frame to the taskbar
+# epios8.pack(side=tk.RIGHT)
+
+
+# epios9 = tk.Frame(taskbar2, width=100, height=30, bg='blue')
+
+# # Add your custom widget content here
+# label = ttk.Button(epios3, text=dt, relief=tk.RAISED, command=lambda: subprocess.Popen(['python', 'Time.py']))
+# label.pack()
+
+# # Add the custom widget frame to the taskbar
+# epios9.pack(side=tk.RIGHT)
+
+
+# epios10 = tk.Frame(taskbar2, width=100, height=30, bg='blue')
+
+# # Add your custom widget content here
+# label = ttk.Button(epios3, text=dt, relief=tk.RAISED, command=lambda: subprocess.Popen(['python', 'Time.py']))
+# label.pack()
+
+# # Add the custom widget frame to the taskbar
+# epios10.pack(side=tk.RIGHT)
 #-----------------------#
 
 
@@ -238,7 +312,7 @@ epios3.pack(side=tk.RIGHT)
 def start_rename(home_dir, label):
     if args.verbose:
         print("start_rename")
-    entry = tk.Entry(label, relief=tk.FLAT)
+    entry = ttk.Entry(label, relief=tk.FLAT)
     entry.insert(0, label.cget("text"))
     entry.bind("<Return>", lambda event, path=home_dir, entry=entry: finish_rename(path, entry))
     entry.bind("<FocusOut>", lambda event, entry=entry: entry.destroy())
@@ -281,7 +355,7 @@ def select_folder():
 
     # Create a label for each item in the folder
     for item in folder_contents:
-        label = tk.Label(folder_contents_frame, text=item)
+        label = ttk.Label(folder_contents_frame, text=item)
         label.pack()
 
 def finish_rename(home_dir, entry):
@@ -344,8 +418,8 @@ def create_file(home_dir2):
     file_frame.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
 
     # Create a label for the current directory
-    current_dir_label = tk.Label(tree_frame, text='Current Directory: {}'.format(home_dir2))
-    current_dir_label.pack(side=tk.TOP, padx=10, pady=10)
+    current_dir_label = ttk.Label(tree_frame, text='Current Directory: {}'.format(home_dir2))
+    current_dir_label.pack(side=tk.TOP, )
 
     # Create a treeview widget for the directory tree
     treeview = ttk.Treeview(tree_frame)
@@ -380,20 +454,20 @@ def create_file(home_dir2):
     scrollbar.config(command=file_listbox.yview)
 
     # Create a label for the file name entry
-    file_name_label = tk.Label(file_frame, text='File Name:')
-    file_name_label.pack(side=tk.TOP, padx=10, pady=10)
+    file_name_label = ttk.Label(file_frame, text='File Name:')
+    file_name_label.pack(side=tk.TOP, )
 
     # Create an entry widget for the file name
-    file_name_entry = tk.Entry(file_frame)
-    file_name_entry.pack(side=tk.TOP, padx=10, pady=10)
+    file_name_entry = ttk.Entry(file_frame)
+    file_name_entry.pack(side=tk.TOP, )
 
     # Create a button to create the file
-    create_button = tk.Button(file_frame, text='Create File', command=lambda: create_file_action(home_dir2, file_name_entry.get()))
-    create_button.pack(side=tk.TOP, padx=10, pady=10)
+    create_button = ttk.Button(file_frame, text='Create File', command=lambda: create_file_action(home_dir2, file_name_entry.get()))
+    create_button.pack(side=tk.TOP, )
 
     # Create a button to close the window
-    close_button = tk.Button(file_frame, text='Close', command=root.destroy)
-    close_button.pack(side=tk.TOP, padx=10, pady=10)
+    close_button = ttk.Button(file_frame, text='Close', command=root.destroy)
+    close_button.pack(side=tk.TOP, )
 
     # Set the minimum size of the window
     root.minsize(800, 600)
@@ -418,7 +492,7 @@ def show_popup(message):
         print('show_popup')
     popup = tk.Tk()
     popup.wm_title("Popup")
-    label = tk.Label(popup, text=message)
+    label = ttk.Label(popup, text=message)
     label.pack()
     popup.after(3000, lambda: popup.destroy())  # Close the popup after 3000 milliseconds (3 seconds)
     popup.mainloop()
@@ -491,7 +565,7 @@ def open_folder(event):
             name, ext = os.path.splitext(item)
 
             # Create a label for the item
-            label = tk.Label(folder_contents_frame, text=item)
+            label = ttk.Label(folder_contents_frame, text=item)
 
             # Add an image icon to the left of the label based on the file extension
             if ext == '.txt':
@@ -522,7 +596,7 @@ def open_folder(event):
 
         # Create a label for each item in the folder
         for item in folder_contents:
-            label = tk.Label(folder_frame, text=item)
+            label = ttk.Label(folder_frame, text=item)
             label.pack()
 
             # If the item is a folder, add a '/' to the label text
@@ -567,7 +641,7 @@ def load_files_thread(home_dir):
 
         for file in files:
             file_path = os.path.join(home_dir, file)
-            label = tk.Label(desktop, text=file, pady=10)
+            label = ttk.Label(desktop, text=file, padding=8)
             if os.path.isdir(file_path):
                 label.configure(text=file + '/')
                 # Set the background color
@@ -600,7 +674,7 @@ def load_files_thread(home_dir):
 
             label.bind("<Button-1>", lambda event, path=file_path: open_file_with_path(path))
             label.bind("<Button-3>", lambda event, path=file_path: show_files_context_menu(event))
-            label.grid(row=grid_row, column=grid_column, padx=10, pady=10, sticky='w')
+            label.grid(row=grid_row, column=grid_column,  sticky='w')
 
 def refresh_code(home_dir):
     if args.verbose:
@@ -636,7 +710,7 @@ desktop.bind("<Button-3>", show_desktop_context_menu)
 
 def pin_to_taskbar(home_dir):
     if not is_pinned(home_dir):
-        taskbar_label = tk.Label(taskbar, text=os.path.basename(home_dir), padx=10)
+        taskbar_label = ttk.Label(taskbar, text=os.path.basename(home_dir), )
         taskbar_label.pack(side=tk.LEFT)
         load_files_thread(home_dir)
         def open_pinned_file(path=home_dir):
@@ -661,18 +735,18 @@ def open_file(home_dir):
 
 def unpin_from_taskbar(home_dir):
     for widget in taskbar.winfo_children():
-        if isinstance(widget, tk.Label) and widget.cget("text") == os.path.basename(home_dir):
+        if isinstance(widget, ttk.Label) and widget.cget("text") == os.path.basename(home_dir):
             widget.destroy()
             load_files_threa(home_dir)
 def find_label(home_dir):
     for widget in desktop.winfo_children():
-        if isinstance(widget, tk.Label) and widget.cget("text") == os.path.basename(home_dir):
+        if isinstance(widget, ttk.Label) and widget.cget("text") == os.path.basename(home_dir):
             return widget
 def main():
     load_files_thread(home_dir)    
 def is_pinned(home_dir):
     for widget in taskbar.winfo_children():
-        if isinstance(widget, tk.Label) and widget.cget("text") == os.path.basename(home_dir):
+        if isinstance(widget, ttk.Label) and widget.cget("text") == os.path.basename(home_dir):
             return True
     return False
 load_files_threa(home_dir)

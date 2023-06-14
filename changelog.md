@@ -4,7 +4,7 @@ if the version is not released to the public, it will be marked with a `*`
 
 untill the first release of PythonicOS that allows you to install this OS on your computer, these versions will be compiled to EXE files and will be released to the public.
 
-## 0.0.1*
+## 0.0.1
 
 - Added the changelog file
 - Added the README file
@@ -15,10 +15,9 @@ untill the first release of PythonicOS that allows you to install this OS on you
 - wiki
 - config.ini file
 - shell
-- pythonicOS.py file
-- panno.py file
-- towii module
-- maTime! module
+- pythonicOS the main desktop
+- panno text editor
+- Time! module
 - bluescreens!
 
 ## 0.0.2*
