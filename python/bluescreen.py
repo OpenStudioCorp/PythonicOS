@@ -1,6 +1,8 @@
 import tkinter as tk
 import tkinter.font as tkFont
-error = 
+error = ""
+
+# How is this supposed to work?
 class App:
     def __init__(self, root):
         #setting title

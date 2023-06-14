@@ -29,12 +29,13 @@ def mkdir():
 
     try:
         os.mkdir(path)
-        print("Directory '%s' created successfully." % directory_name)
+        print(f"Directory '{directory_name}' created successfully.")
     except OSError as error:
-        print("Error creating directory '%s': %s" % (directory_name, error))
+        print(f"Error creating directory '{directory_name}': {error}")
 
 
 def editfile():
+    # If you're just gonna use nano anyway, why even bother having this?
     '''
     Edit a file in the current working directory.
     '''
@@ -47,7 +48,7 @@ def editfile():
         subprocess.run(["nano", path])
         print("Editing file:", filename)
     except OSError as error:
-        print("Error editing file '%s': %s" % (filename, error))
+        print(f"Error editing file '{filename}': {error}")
 
 
 def senddata():

@@ -149,10 +149,7 @@ def load_files(home_dir):
             grid_column = 0
             grid_row += 1
 
-        def open_file_with_path(path):
-            open_file(path)
-
-        label.bind("<Button-1>", lambda event, path=file_path: open_file_with_path(path))
+        label.bind("<Button-1>", lambda event, path=file_path: open_file(path))
         label.bind("<Button-3>", lambda event, path=file_path: show_files_context_menu(event))
         label.grid(row=grid_row, column=grid_column, padx=10, pady=10, sticky='w')
 

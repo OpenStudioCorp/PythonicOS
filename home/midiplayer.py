@@ -1,5 +1,5 @@
 import pygame
-
+# Won't this show the annoying pygame prompt though?
 def play_music(music_file):
     """
     stream music with mixer.music module in blocking manner

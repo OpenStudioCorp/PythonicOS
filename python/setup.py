@@ -1,6 +1,4 @@
 import os
-import sys
-import datetime
 
 DIRS = [
     'home',
@@ -16,7 +14,7 @@ DIRS = [
     'system/logs'
     'mount'
 ]
-
+# Why are there different files that create directories?
 def main():
     for i in DIRS:
         if not os.path.exists(i):
