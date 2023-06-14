@@ -73,8 +73,7 @@ def editfile():
 
 
 def senddata():
-    message = input("Enter the message to send: ")
-    pydata1.send(message.encode('utf-8'))
+    print('hallo! sorry for the inconvenience, but this feature is not yet implemented. it used to be but it was removed because it was not working properly.')
 
 
 def StartOS():
