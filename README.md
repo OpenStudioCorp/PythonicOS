@@ -74,7 +74,7 @@ git push origin feature/your-feature-name
 Open a pull request in the original PythonicOS repository, describing your changes and their purpose.
 ------------------------------------------------------------------------------------------------------
 License
-PythonicOS is released under the MIT License.
+PythonicOS is released under the Apache 2.0License.
 
 Contact
 For any questions, suggestions, or feedback, please reach out to us at our discord,
