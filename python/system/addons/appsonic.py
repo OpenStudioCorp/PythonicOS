@@ -2,7 +2,7 @@ import os
 import tkinter as tk
 from tkinter import messagebox
 from tkinter import ttk
-
+import subprocess
 
 # Set the directory to scan for .py files
 directory = os.getcwd()
@@ -11,7 +11,7 @@ directory = os.getcwd()
 root = tk.Tk()
 root.title("App Launcher")
 root.geometry("500x500")
-root.configure(bg="white")
+root.configure(bg="darkgrey")
 # Create a list to hold the file names
 file_list = []
 
@@ -22,11 +22,13 @@ for file in os.listdir(directory):
         file_name, file_ext = os.path.splitext(file)
         # Add the filename to the list
         file_list.append(file_name)
+    else: 
+        print("hey! there are files in this directory that aint .py files!")
 
 # Create a listbox to display the file names
 listbox = tk.Listbox(root)
 listbox.pack()
-listbox.config(width=50, height=20)
+listbox.config(bg='darkgrey',width=50, height=20)
 
 # Add the file names to the listbox
 for file_name in file_list:
@@ -39,7 +41,7 @@ def open_file():
     if selection:
         file_name = file_list[selection[0]]
         # Open the file in a new window
-        os.system(f"python {file_name}.py")
+        subprocess.Popen(f"python {file_name}.py")
 
 # Create a button to open the selected file
 open_button = ttk.Button(root, text="Open", command=open_file)
