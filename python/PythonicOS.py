@@ -177,8 +177,7 @@ if tskbr == 'True':
         taskbar = tk.Frame(root, height=taskbar_height, bg=taskbar_color)
         taskbar.pack(side=tk.TOP, fill=tk.X)
 
-        taskbar2 = tk.Frame(root, height=10, bg=taskbar_color)
-        taskbar2.pack(side=tk.TOP, fill=tk.X)
+        
     except Exception as e:
     # Log the error message to a file
         #logging.error(str(e))
@@ -208,7 +207,7 @@ def epios3():
         print("pythonicOS is starting time.py")
     subprocess.Popen(['python', 'Time.py'])
 # Create a frame for the custom widget
-epios = tk.Frame(taskbar2, width=100, height=30, bg='blue')
+epios = tk.Frame(taskbar, width=100, height=30, bg='blue')
 
 # Add your custom widget content here
 label = ttk.Button(epios, text='Exit', command=lambda: epiOS(root))
@@ -217,16 +216,7 @@ label.pack()
 # Add the custom widget frame to the taskbar
 epios.pack(side=tk.RIGHT)
 # Create a frame for the custom widget
-epios2 = tk.Frame(taskbar2, width=100, height=30, bg='blue')
-
-# Add your custom widget content here
-label = ttk.Button(epios2, text='crash', command=lambda: create_app(root, "PythonicOS"))
-label.pack()
-
-# Add the custom widget frame to the taskbar
-epios2.pack(side=tk.RIGHT)
-
-epios3 = tk.Frame(taskbar2, width=100, height=30, bg='blue')
+epios3 = tk.Frame(taskbar, width=100, height=30, bg='blue')
 
 # Add your custom widget content here
 label = ttk.Button(epios3, text=dt, command=lambda: subprocess.Popen(['python', 'Time.py']))
@@ -235,25 +225,6 @@ label.pack()
 # Add the custom widget frame to the taskbar
 epios3.pack(side=tk.RIGHT)
 
-
-epios4 = tk.Frame(taskbar2, width=100, height=30, bg='blue')
-
-# Add your custom widget content here
-label = ttk.Button(epios4, text='hey! how are you?', command=lambda: subprocess.Popen(['python', 'Time.py']))
-label.pack()
-
-# Add the custom widget frame to the taskbar
-epios4.pack(side=tk.RIGHT)
-
-
-epios5 = tk.Frame(taskbar2, width=100, height=30, bg='blue')
-
- # Add your custom widget content here
-label = ttk.Button(epios5, text=dt, command=lambda: subprocess.Popen(['python', 'Time.py']))
-label.pack()
-
- # Add the custom widget frame to the taskbar
-epios5.pack(side=tk.RIGHT)
 
 
 # epios6 = tk.Frame(taskbar2, width=100, height=30, bg='blue')
