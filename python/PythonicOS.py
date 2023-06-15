@@ -24,6 +24,7 @@ root = tk.Tk()
 #-----------------------------------#
 #   welcome to PythonicOS's desktop module
 #   this module should not be touched unless you know what your doing and you have a backup of it!
+
 #   this module is the main module of the OS, it is the desktop, it is the thing that you see when you open the OS
 #   it has multiple functions that allow you to do things like open files, create files, delete files, and more!
 #-----------------------------------#
@@ -238,7 +239,7 @@ epios3.pack(side=tk.RIGHT)
 epios4 = tk.Frame(taskbar2, width=100, height=30, bg='blue')
 
 # Add your custom widget content here
-label = ttk.Button(epios4, text='', command=lambda: subprocess.Popen(['python', 'Time.py']))
+label = ttk.Button(epios4, text='hey! how are you?', command=lambda: subprocess.Popen(['python', 'Time.py']))
 label.pack()
 
 # Add the custom widget frame to the taskbar
@@ -511,7 +512,7 @@ def show_files_context_menu(event):
         context_menu.add_command(label='Unpin from Taskbar', command=lambda: unpin_from_taskbar(home_dir))
     context_menu.add_command(label='Rename', command=lambda: start_rename(home_dir, label))
     context_menu.add_command(label='Refresh', command=lambda: refresh_code())
-    context_menu.add_command(label='open folder', command=lambda: open_folder(event))
+    context_menu.add_command(label='open folder', command=lambda: open_folder( event, path=home_dir))
     context_menu.add_command(label='Delete', command=lambda: (delete_file(home_dir), load_files_thread(home_dir)))
     context_menu.post(event.x_root, event.y_root)
 def open_file_with_path(path):
@@ -519,7 +520,7 @@ def open_file_with_path(path):
                 print('open_file_with_path')
             open_file(path)
 
-def open_folder(event):
+def open_folder(event, path):
     if args.verbose:
         print('open_folder')
     # Get the label that was clicked
@@ -568,16 +569,7 @@ def open_folder(event):
             label = ttk.Label(folder_contents_frame, text=item)
 
             # Add an image icon to the left of the label based on the file extension
-            if ext == '.txt':
-                icon = tk.PhotoImage(file='system/bin/ClosedFolder-0.png')
-            elif ext == '.pdf':
-                icon = tk.PhotoImage(file='system/bin/ClosedFolder-0.png')
-            elif ext == '.png':
-                icon = tk.PhotoImage(file='system/bin/ClosedFolder-0.png')
-            else: os.path.isdir(folder_path)
-            icon = tk.PhotoImage(file='system/bin/ClosedFolder-0.png')
-            label.image = icon
-            label.configure(image=icon, compound='left')
+            label.configure(compound='left')
 
             label.pack()
 
@@ -586,10 +578,10 @@ def open_folder(event):
                 label.configure(text=item + '/')
 
             # Bind the <Button-1> event to the label
-            label.bind('<Button-1>', open_folder)
+            label.bind('<Button-1>', lambda e: open_folder(e, os.path.join(folder_path, item)))
 
             # Bind the <Button-3> event to the label
-            label.bind('<Button-3>', lambda e: show_menu(e))
+            label.bind('<Button-3>', lambda e: show_menu(e, os.path.join(folder_path, item)))
 
         # Set the title of the folder window
         folder_window.title(folder_path)
@@ -604,19 +596,20 @@ def open_folder(event):
                 label.configure(text=item + '/')
 
             # Bind the <Button-1> event to the label
-            label.bind('<Button-1>', open_folder)
+            label.bind('<Button-1>', lambda e: open_folder(e, os.path.join(folder_path, item)))
 
             # Bind the <Button-3> event to the label
-            label.bind('<Button-3>', lambda e: show_menu(e))
+            label.bind('<Button-3>', lambda e: show_menu(e, os.path.join(folder_path, item)))
 
-def show_menu(event):
+
+def show_menu(event, path):
     # Create a new menu object
     menu = tk.Menu(root, tearoff=0)
 
     # Add menu items
-    menu.add_command(label="Copy")
-    menu.add_command(label="Cut")
-    menu.add_command(label="Paste")
+    menu.add_command(label="open file", command=lambda: open_file(path))
+    menu.add_command(label="Cut", command=lambda: open_file(path))
+    menu.add_command(label="Paste", command=lambda: open_file(path))
 
     # Display the menu at the mouse position
     menu.tk_popup(event.x_root, event.y_root)
@@ -624,8 +617,8 @@ def show_menu(event):
 def load_files_thread(home_dir):
     if args.verbose:
         print('loading files')
-    for widget in desktop.winfo_children():
-        widget.destroy()
+    # for widget in desktop.winfo_children():
+    #     widget.destroy() DONT USE THIS PLEASE IT WILL DELETE EVERYTHING. not realy it just stops you from pinning files to the task bar
 
 
     if not os.path.isdir(home_dir):
@@ -636,23 +629,23 @@ def load_files_thread(home_dir):
     else:
         files = sorted(os.listdir(home_dir))  # Sort files alphabetically
         grid_columns = 9
-        grid_row = 0
+        grid_row = 0 
         grid_column = 0
 
-        for file in files:
+        for file in files: # Create a label for each file
             file_path = os.path.join(home_dir, file)
             label = ttk.Label(desktop, text=file, padding=8)
-            if os.path.isdir(file_path):
-                label.configure(text=file + '/')
+            if os.path.isdir(file_path): # If the file is a folder, add a '/' to the label text
+                label.configure(text=file + '/') 
                 # Set the background color
-                label.configure(background='lightgreen')
+                label.configure(background='lightgreen')   
                 
             # Get the file extension
             _, extension = os.path.splitext(file_path)
 
             # Set the background color based on the file extension
             if extension == '.cs':
-                label.configure(background='black')
+                label.configure(background='darkgrey') 
             elif extension == '.html':
                 label.configure(background='red')
             elif extension == '.py':
@@ -713,23 +706,23 @@ def pin_to_taskbar(home_dir):
         taskbar_label = ttk.Label(taskbar, text=os.path.basename(home_dir), )
         taskbar_label.pack(side=tk.LEFT)
         load_files_thread(home_dir)
-        def open_pinned_file(path=home_dir):
+        def open_pinned_file(path):
             open_file(path)
             load_files_thread(home_dir)
-        taskbar_label.bind("<Button-1>", lambda event: open_pinned_file())
+        taskbar_label.bind("<Button-1>", lambda event, path=home_dir: open_pinned_file(path))
         taskbar_label.bind("<Button-3>", lambda event: show_files_context_menu(event))
     load_files_thread(home_dir)
-def open_file(home_dir):
-    if home_dir:
-        if os.path.isdir(home_dir):
+def open_file(path):
+    if path:
+        if os.path.isdir(path):
             if os.name == 'nt':
-                subprocess.Popen(['explorer', home_dir])
+                subprocess.Popen(['explorer', path])
             elif os.name == 'posix':
-                subprocess.Popen(['xdg-open', home_dir])
+                subprocess.Popen(['xdg-open', path])
         else:
-            subprocess.Popen(['python', 'system/addons/panno.py', home_dir])
+            subprocess.Popen(['python', 'system/addons/panno.py', path])
             if args.verbose:
-                print(home_dir)
+                print(path)
     else:
         print("No file path provided.")
 

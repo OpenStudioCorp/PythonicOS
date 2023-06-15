@@ -100,7 +100,7 @@ class App:
         GLabel_4.place(x=10,y=380,width=599,height=30)
 
     def scat(self):
-        subprocess.Popen["python","../PythonicOS.py"]
+        subprocess.Popen["python","PythonicOS.py"]
 
 if __name__ == "__main__":
     root = tk.Tk()
