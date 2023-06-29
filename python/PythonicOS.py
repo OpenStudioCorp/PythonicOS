@@ -13,8 +13,6 @@ import configparser
 import os
 import shutil
 import datetime
-import file
-from file import pycrashos, pycrashnone, pycrashshell,pycrashconfig, shell, config_file, usrpass, config_login
 import logging
 import argparse
 from tkinter import ttk  # Normal Tk widgets don't look good on Mac and Linux, and also some of the code in this file uses ttk, idk why?
@@ -29,22 +27,22 @@ root = tk.Tk()
 #   it has multiple functions that allow you to do things like open files, create files, delete files, and more!
 #-----------------------------------#
 #  functions in this module: 
-#   start_rename(home_dir, label)
-#   finish_rename(home_dir, entry)
-#   delete_file(home_dir)
-#   pin_to_taskbar(home_dir)
-#   unpin_from_taskbar(home_dir)
-#   is_pinned(home_dir)
-#   open_file(home_dir)
-#   load_files_thread(home_dir)
-#   create_file(home_dir)
-#   create_folder(home_dir)
-#   delete_folder(home_dir)
+#   start_rename(HOMEDIR, label)
+#   finish_rename(HOMEDIR, entry)
+#   delete_file(HOMEDIR)
+#   pin_to_taskbar(HOMEDIR)
+#   unpin_from_taskbar(HOMEDIR)
+#   is_pinned(HOMEDIR)
+#   open_file(HOMEDIR)
+#   load_files_thread(HOMEDIR)
+#   create_file(HOMEDIR)
+#   create_folder(HOMEDIR)
+#   delete_folder(HOMEDIR)
 #-----------------------------------#
 #   variables in this module:
 #   syst
 #   system
-#   home_dir
+#   HOMEDIR
 #   sys_bin
 #   sys_scripts
 #   sys_addr
@@ -68,12 +66,12 @@ dt = datetime.datetime.now().strftime("%Y-%m-%d")
 #logging.basicConfig(filename=f'error{dt}.log', level=logging.ERROR) this is the error log, it will log any errors that happen in the desktop module, the other modules have their own error logs
 
 SYST = 'sys'
-system = 'system'
-home_dir = os.path.join('system', 'home', 'user')
-home_dir2 = os.path.join('system')
+SYSTEM = 'system'
+HOMEDIR = os.path.join('system', 'home', 'user')
+HOMEDIR2 = os.path.join('system')
 SYS_BIN = os.path.join('system', 'bin')
 SYS_SCRIPTS = os.path.join('system', 'scripts')
-sys_addr = os.path.join('system', 'addons')
+SYSADDR = os.path.join('system', 'addons')
 sys_docu = 'system/documents'
 sys_hom_usr_desk = 'system/home/user/desktop'
 sys_hom_usr_doc = 'system/home/user/documents'
@@ -281,12 +279,12 @@ epios3.pack(side=tk.RIGHT)
 
 
 #---------------------------------#
-def start_rename(home_dir, label):
+def start_rename(HOMEDIR, label):
     if args.verbose:
         print("start_rename")
     entry = ttk.Entry(label, relief=tk.FLAT)
     entry.insert(0, label.cget("text"))
-    entry.bind("<Return>", lambda event, path=home_dir, entry=entry: finish_rename(path, entry))
+    entry.bind("<Return>", lambda event, path=HOMEDIR, entry=entry: finish_rename(path, entry))
     entry.bind("<FocusOut>", lambda event, entry=entry: entry.destroy())
     entry.pack()
     entry.select_range(0, tk.END)
@@ -330,39 +328,39 @@ def select_folder():
         label = ttk.Label(folder_contents_frame, text=item)
         label.pack()
 
-def finish_rename(home_dir, entry):
-    load_files_thread(home_dir)
+def finish_rename(HOMEDIR, entry):
+    load_files_thread(HOMEDIR)
     if args.verbose:
         print("finish_rename")
     new_filename = entry.get().strip()
-    new_home_dir = os.path.join(os.path.dirname(home_dir), new_filename)
+    new_HOMEDIR = os.path.join(os.path.dirname(HOMEDIR), new_filename)
 
     # Close any open file handles
     entry.destroy()
 
     # Rename the file
     try:
-        os.rename(home_dir, new_home_dir)
-        load_files_thread(home_dir)
+        os.rename(HOMEDIR, new_HOMEDIR)
+        load_files_thread(HOMEDIR)
     except Exception as e:
     # Log the error message to a file
         #logging.error(str(e))
         return
-    load_files_thread(home_dir)
-    if is_pinned(home_dir):
-        unpin_from_taskbar(home_dir)
-        pin_to_taskbar(new_home_dir)
-    load_files_thread(home_dir)
+    load_files_thread(HOMEDIR)
+    if is_pinned(HOMEDIR):
+        unpin_from_taskbar(HOMEDIR)
+        pin_to_taskbar(new_HOMEDIR)
+    load_files_thread(HOMEDIR)
 
-def delete_file(home_dir):
+def delete_file(HOMEDIR):
     if args.verbose:
         print("delete_file")
-    load_files_thread(home_dir)
-    if os.path.isfile(home_dir):
-        os.remove(home_dir)
-        load_files_thread(home_dir)
-        print(f'{home_dir} has been deleted.')
-        load_files_thread(home_dir)
+    load_files_thread(HOMEDIR)
+    if os.path.isfile(HOMEDIR):
+        os.remove(HOMEDIR)
+        load_files_thread(HOMEDIR)
+        print(f'{HOMEDIR} has been deleted.')
+        load_files_thread(HOMEDIR)
 
 def create_treeview(treeview, parent_node, parent_path):
     for file in os.listdir(parent_path):
@@ -373,7 +371,7 @@ def create_treeview(treeview, parent_node, parent_path):
         else:
             treeview.insert(parent_node, 'end', text=file)
 
-def create_file(home_dir2):
+def create_file(HOMEDIR2):
     if args.verbose:
         print("create_file")
     # Create the main window
@@ -390,7 +388,7 @@ def create_file(home_dir2):
     file_frame.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
 
     # Create a label for the current directory
-    current_dir_label = ttk.Label(tree_frame, text='Current Directory: {}'.format(home_dir2))
+    current_dir_label = ttk.Label(tree_frame, text='Current Directory: {}'.format(HOMEDIR2))
     current_dir_label.pack(side=tk.TOP, )
 
     # Create a treeview widget for the directory tree
@@ -398,11 +396,11 @@ def create_file(home_dir2):
     treeview.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
 
     # Add the root node to the treeview
-    root_node = treeview.insert('', 'end', text=os.path.basename(home_dir2), open=True)
+    root_node = treeview.insert('', 'end', text=os.path.basename(HOMEDIR2), open=True)
 
     # Add the child nodes to the root node
-    for file in os.listdir(home_dir):
-        file_path = os.path.join(home_dir, file)
+    for file in os.listdir(HOMEDIR):
+        file_path = os.path.join(HOMEDIR, file)
     if os.path.isdir(file_path):
         node = treeview.insert(root_node, 'end', text=file, open=False)
         create_treeview(treeview, node, file_path)
@@ -434,7 +432,7 @@ def create_file(home_dir2):
     file_name_entry.pack(side=tk.TOP, )
 
     # Create a button to create the file
-    create_button = ttk.Button(file_frame, text='Create File', command=lambda: create_file_action(home_dir2, file_name_entry.get()))
+    create_button = ttk.Button(file_frame, text='Create File', command=lambda: create_file_action(HOMEDIR2, file_name_entry.get()))
     create_button.pack(side=tk.TOP, )
 
     # Create a button to close the window
@@ -447,17 +445,17 @@ def create_file(home_dir2):
     # Start the main event loop
     root.mainloop()
 
-def create_file_action(home_dir2, file_name):
+def create_file_action(HOMEDIR2, file_name):
     # Create the file
     if args.verbose:
         print('create_file_action')
     filename = '{}.py'.format(file_name)
 
-    with open(os.path.join(home_dir, filename), 'w') as file:
+    with open(os.path.join(HOMEDIR, filename), 'w') as file:
         file.write('This is the content of {}'.format(filename))
 
     # Reload the file list
-    load_files_thread(home_dir)
+    load_files_thread(HOMEDIR)
 
 def show_popup(message):
     if args.verbose:
@@ -469,23 +467,59 @@ def show_popup(message):
     popup.after(3000, lambda: popup.destroy())  # Close the popup after 3000 milliseconds (3 seconds)
     popup.mainloop()
 
+def topbar(taskbar2,Menu):
+    # Creating Menubar
+    menubar = Menu(root)
+
+# Adding File Menu and SubMenus
+    file = Menu(menubar, tearoff=0)
+    menubar.add_cascade(label='File', menu=file)
+    file.add_command(label='New File')
+    file.add_command(label='Open...')
+    file.add_command(label='Save')
+
+# Adding Edit Menu and SubMenus
+    edit = Menu(menubar, tearoff=0)
+    menubar.add_cascade(label='Edit', menu=edit)
+    edit.add_command(label='Cut')
+    edit.add_command(label='Copy')  
+    edit.add_command(label='Paste')
+
+    edit.add_command(label='Select All')
+
+    # Adding Help Menu and SubMenus
+    help_ = Menu(menubar, tearoff=0)
+    menubar.add_cascade(label='Help', menu=help_)
+    help_.add_command(label='Tk Help')
+    help_.add_command(label='Demo')
+
+# display Menu
+    root.config(menu=menubar)
+
 def show_files_context_menu(event):
     if args.verbose:
         print('show_files_context_menu')
-    context_menu = tk.Menu(desktop, tearoff=0)
+    context_menu = tk.Menu(root, tearoff=0)
 
     label = event.widget
-    home_dir = os.path.join(os.path.dirname(__file__), 'system/home/user', label.cget("text"))
+    HOMEDIR = os.path.join(os.path.dirname(__file__), 'system/home/user', label.cget("text"))
 
-    if not is_pinned(home_dir):
-        context_menu.add_command(label='Pin to Taskbar', command=lambda: pin_to_taskbar(home_dir))
-    if is_pinned(home_dir):
-        context_menu.add_command(label='Unpin from Taskbar', command=lambda: unpin_from_taskbar(home_dir))
-    context_menu.add_command(label='Rename', command=lambda: start_rename(home_dir, label))
-    context_menu.add_command(label='Refresh', command=lambda: refresh_code())
-    context_menu.add_command(label='open folder', command=lambda: open_folder( event, path=home_dir))
-    context_menu.add_command(label='Delete', command=lambda: (delete_file(home_dir), load_files_thread(home_dir)))
+    if not is_pinned(HOMEDIR):
+
+        context_menu.add_command(label='Pin to Taskbar', command=lambda: pin_to_taskbar(HOMEDIR))
+
+    if is_pinned(HOMEDIR):
+
+        context_menu.add_command(label='Unpin from Taskbar', command=lambda: unpin_from_taskbar(HOMEDIR))
+
+    context_menu.add_command(label='Rename', command=lambda: start_rename(HOMEDIR, label))
+
+    context_menu.add_command(label='open folder', command=lambda: open_folder( event, path=HOMEDIR))
+
+    context_menu.add_command(label='Delete', command=lambda: (delete_file(HOMEDIR), load_files_thread(HOMEDIR)))
+
     context_menu.post(event.x_root, event.y_root)
+
 def open_file_with_path(path):
             if args.verbose:
                 print('open_file_with_path')
@@ -585,26 +619,26 @@ def show_menu(event, path):
     # Display the menu at the mouse position
     menu.tk_popup(event.x_root, event.y_root)
 
-def load_files_thread(home_dir):
+def load_files_thread(HOMEDIR):
     if args.verbose:
         print('loading files')
     # for widget in desktop.winfo_children():
     #     widget.destroy() DONT USE THIS PLEASE IT WILL DELETE EVERYTHING. not realy it just stops you from pinning files to the task bar
 
 
-    if not os.path.isdir(home_dir):
+    if not os.path.isdir(HOMEDIR):
             try:
-                home_dir = os.path.join(os.path.dirname(__file__), 'system/home/user')
+                HOMEDIR = os.path.join(os.path.dirname(__file__), 'system/home/user')
             except Exception as e:
                 print(f"Error: {e}")
     else:
-        files = sorted(os.listdir(home_dir))  # Sort files alphabetically
+        files = sorted(os.listdir(HOMEDIR))  # Sort files alphabetically
         grid_columns = 9
         grid_row = 0 
         grid_column = 0
 
         for file in files: # Create a label for each file
-            file_path = os.path.join(home_dir, file)
+            file_path = os.path.join(HOMEDIR, file)
             label = ttk.Label(desktop, text=file, padding=8)
             if os.path.isdir(file_path): # If the file is a folder, add a '/' to the label text
                 label.configure(text=file + '/') 
@@ -640,49 +674,56 @@ def load_files_thread(home_dir):
             label.bind("<Button-3>", lambda event, path=file_path: show_files_context_menu(event))
             label.grid(row=grid_row, column=grid_column,  sticky='w')
 
-def refresh_code(home_dir):
+def refresh_code(HOMEDIR):
     if args.verbose:
         print('refreshing code')
-    load_files_thread(home_dir)
+    load_files_thread(HOMEDIR)
 
 def open_dir(file_path):
     if os.path.isdir(file_path):
         subprocess.Popen(f'explorer {file_path}')
-def load_files_threa(home_dir):
+def load_files_threa(HOMEDIR):
     import threading
     # create a new thread to run the load_files() function
-    t = threading.Thread(target=load_files_thread(home_dir), args=(home_dir,))
+    t = threading.Thread(target=load_files_thread(HOMEDIR), args=(HOMEDIR,))
     t.start()
 
 def show_desktop_context_menu(event):
     global file_context_menu
     file_context_menu = tk.Menu(desktop, tearoff=False)
-    home_dir = os.path.join(os.path.dirname(__file__), 'system/home/user')
+    HOMEDIR = os.path.join(os.path.dirname(__file__), 'system/home/user')
 
-    if not is_pinned(home_dir):
-        file_context_menu.add_command(label='Pin to Taskbar', command=lambda: pin_to_taskbar(home_dir))
-    if is_pinned(home_dir):
-        file_context_menu.add_command(label='Unpin from Taskbar', command=lambda: unpin_from_taskbar(home_dir))
+    if not is_pinned(HOMEDIR):
 
-    file_context_menu.add_command(label='New File', command=lambda: create_file(home_dir2))
-    file_context_menu.add_command(label='Load Files', command=lambda: load_files_thread(home_dir))
-    file_context_menu.add_command(label='Refresh', command=lambda: refresh_code(home_dir))
-    file_context_menu.add_command(label='Delete', command=lambda: (delete_file(home_dir), load_files_thread(home_dir)))
+        file_context_menu.add_command(label='Pin to Taskbar', command=lambda: pin_to_taskbar(HOMEDIR))
+    if is_pinned(HOMEDIR):
+
+        file_context_menu.add_command(label='Unpin from Taskbar', command=lambda: unpin_from_taskbar(HOMEDIR))
+
+    file_context_menu.add_command(label='New File', command=lambda: create_file(HOMEDIR2))
+
+    file_context_menu.add_command(label='Load Files', command=lambda: load_files_thread(HOMEDIR))
+
+    file_context_menu.add_command(label='Refresh', command=lambda: refresh_code(HOMEDIR))
+
+    file_context_menu.add_command(label='Delete', command=lambda: (delete_file(HOMEDIR), load_files_thread(HOMEDIR)))
+
     file_context_menu.post(event.x_root, event.y_root)
 
-desktop.bind("<Button-3>", show_desktop_context_menu)
+    desktop.bind("<Button-3>", show_desktop_context_menu)
 
-def pin_to_taskbar(home_dir):
-    if not is_pinned(home_dir):
-        taskbar_label = ttk.Label(taskbar, text=os.path.basename(home_dir), )
+
+def pin_to_taskbar(HOMEDIR):
+    if not is_pinned(HOMEDIR):
+        taskbar_label = ttk.Label(taskbar, text=os.path.basename(HOMEDIR), )
         taskbar_label.pack(side=tk.LEFT)
-        load_files_thread(home_dir)
+        
         def open_pinned_file(path):
             open_file(path)
-            load_files_thread(home_dir)
-        taskbar_label.bind("<Button-1>", lambda event, path=home_dir: open_pinned_file(path))
+            
+        taskbar_label.bind("<Button-1>", lambda event, path=HOMEDIR: open_pinned_file(path))
         taskbar_label.bind("<Button-3>", lambda event: show_files_context_menu(event))
-    load_files_thread(home_dir)
+    load_files_thread(HOMEDIR)
 def open_file(path):
     if path:
         if os.path.isdir(path):
@@ -697,23 +738,23 @@ def open_file(path):
     else:
         print("No file path provided.")
 
-def unpin_from_taskbar(home_dir):
+def unpin_from_taskbar(HOMEDIR):
     for widget in taskbar.winfo_children():
-        if isinstance(widget, ttk.Label) and widget.cget("text") == os.path.basename(home_dir):
+        if isinstance(widget, ttk.Label) and widget.cget("text") == os.path.basename(HOMEDIR):
             widget.destroy()
-            load_files_threa(home_dir)
-def find_label(home_dir):
+            load_files_threa(HOMEDIR)
+def find_label(HOMEDIR):
     for widget in desktop.winfo_children():
-        if isinstance(widget, ttk.Label) and widget.cget("text") == os.path.basename(home_dir):
+        if isinstance(widget, ttk.Label) and widget.cget("text") == os.path.basename(HOMEDIR):
             return widget
 def main():
-    load_files_thread(home_dir)    
-def is_pinned(home_dir):
+    load_files_thread(HOMEDIR)    
+def is_pinned(HOMEDIR):
     for widget in taskbar.winfo_children():
-        if isinstance(widget, ttk.Label) and widget.cget("text") == os.path.basename(home_dir):
+        if isinstance(widget, ttk.Label) and widget.cget("text") == os.path.basename(HOMEDIR):
             return True
     return False
-load_files_threa(home_dir)
+load_files_threa(HOMEDIR)
 print('hello') 
 
 

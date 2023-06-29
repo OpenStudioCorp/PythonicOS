@@ -77,7 +77,8 @@ def senddata():
 
 
 def StartOS():
-    subprocess.Popen('python','python/PythonicOS.py')
+    subprocess.Popen(['python', 'PythonicOS.py']) # pass the command as a list of strings
+    # OHHHH MYYYY FFFFFFFFFUUUUUUUUUUUUUUU- DAMMMITTTTT -charlie
 def ls():
     '''
     List the contents of the current working directory.
