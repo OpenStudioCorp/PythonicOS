@@ -62,7 +62,6 @@ root = tk.Tk()
 
 dt = datetime.datetime.now().strftime("%Y-%m-%d")
 # Configure the logging module  
-# Configure the logging module  
 #logging.basicConfig(filename=f'error{dt}.log', level=logging.ERROR) this is the error log, it will log any errors that happen in the desktop module, the other modules have their own error logs
 
 SYST = 'sys'
@@ -768,7 +767,7 @@ def vmain():
         else:
             main()
 
-root.mainloop()
+
 
 
 if __name__ == ('__main__'):
@@ -776,3 +775,4 @@ if __name__ == ('__main__'):
         vmain()
     else:
         main()
+root.mainloop()
