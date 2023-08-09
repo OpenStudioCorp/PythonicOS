@@ -11,7 +11,7 @@ def install(link):
     except Exception as e:
         print(f"Error: {e}")
         
-url = 'http://127.0.0.1:5500/repo.json'
+url = 'http://openstudiocorp.github.io/repo/repo.json'
 response = requests.get(url)
 data = json.loads(response.content)
 

@@ -226,12 +226,12 @@ epios3.pack(side=tk.RIGHT)
 
 # epios6 = tk.Frame(taskbar2, width=100, height=30, bg='blue')
 
-# # Add your custom widget content here
-# label = ttk.Button(epios6, text=dt, relief=tk.RAISED, command=lambda: subprocess.Popen(['python', 'Time.py']))
-# label.pack()
+# Add your custom widget content here
+label = ttk.Button( text=dt, , command=lambda: topbar)
+label.pack()
 
-# # Add the custom widget frame to the taskbar
-# epios6.pack(side=tk.RIGHT)
+# Add the custom widget frame to the taskbar
+label.pack(side=tk.RIGHT)
 
 
 # epios7 = tk.Frame(taskbar2, width=100, height=30, bg='blue')
@@ -288,6 +288,7 @@ def start_rename(HOMEDIR, label):
     entry.pack()
     entry.select_range(0, tk.END)
     entry.focus()
+
 
 
 def select_folder():
@@ -456,15 +457,10 @@ def create_file_action(HOMEDIR2, file_name):
     # Reload the file list
     load_files_thread(HOMEDIR)
 
-def show_popup(message):
+def show_popup(errorname,errormessage):
     if args.verbose:
-        print('show_popup')
-    popup = tk.Tk()
-    popup.wm_title("Popup")
-    label = ttk.Label(popup, text=message)
-    label.pack()
-    popup.after(3000, lambda: popup.destroy())  # Close the popup after 3000 milliseconds (3 seconds)
-    popup.mainloop()
+        print('show_error')
+    messagebox.showerror(errorname,errormessage)
 
 def topbar(taskbar2,Menu):
     # Creating Menubar
