@@ -6,7 +6,7 @@ import platform
 from towii import pydata1, pydata2,time1
 
 def startcmd():
-        subprocess.call(['python','shell.py'])
+        subprocess.call(['python','./python/shell.py'])
 
 def timeis():
     secconds = time.time()
@@ -16,7 +16,7 @@ def print_slow(str):
     for letter in str:
         sys.stdout.write(letter)
         sys.stdout.flush()
-        time.sleep(0.005)
+        time.sleep(0.001)
     sys.stdout.write('\n')
 
 def startSH():

@@ -187,7 +187,11 @@ def pwd():
     '''
     print(os.getcwd())
     
+def cls():
+    os.system('cls' if os.name == 'nt' else 'clear')
 
+def monty():
+    subprocess.Popen(['python', './python/system/addons/montyai.py'])
 
 def my_shell():
     print_greetings()
@@ -206,6 +210,8 @@ def my_shell():
                 print("cd: missing operand")
         elif tokens[0] == "help":
             print_help()
+        elif tokens[0] == "cls":
+            cls()
         elif tokens[0] == "sd":
             senddata()
         elif tokens[0] == "exit":
@@ -228,6 +234,8 @@ def my_shell():
             cp()
         elif tokens[0] == "cat":
             cat()
+        elif tokens[0] == "monty":
+            monty()
         # elif tokens[0] == "rmdir":
         #     rmdir()
         # elif tokens[0] == "rmdir":
@@ -246,9 +254,9 @@ def my_shell():
         #     rmdir()
 
         elif tokens[0] == "time":
-            subprocess.call(['python', 'python/time.py'])
+            subprocess.call(['python', './python/time.py'])
         elif tokens[0] == "date":
-            subprocess.Popen(['python', 'python/time.py'])
+            subprocess.Popen(['python', './python/time.py'])
         else:
             print(f"{tokens[0]}: command not found")
 
