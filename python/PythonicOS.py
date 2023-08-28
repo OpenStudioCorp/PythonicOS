@@ -202,7 +202,7 @@ def epiOS(root):
 def epios3():
     if args.verbose:
         print("pythonicOS is starting time.py")
-    subprocess.Popen(['python', 'Time.py'])
+    subprocess.Popen(['python', './python/time.py'])
 # Create a frame for the custom widget
 epios = tk.Frame(taskbar, width=100, height=30, bg='blue')
 
@@ -216,7 +216,7 @@ epios.pack(side=tk.RIGHT)
 epios3 = tk.Frame(taskbar, width=100, height=30, bg='blue')
 
 # Add your custom widget content here
-label = ttk.Button(epios3, text=dt, command=lambda: subprocess.Popen(['python', 'Time.py']))
+label = ttk.Button(epios3, text=dt, command=lambda: subprocess.Popen(['python', './python/time.py']))
 label.pack()
 
 # Add the custom widget frame to the taskbar
