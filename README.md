@@ -1,8 +1,6 @@
 # PythonicOS
 
-welcome to the official PythonicOS repository!
-it's not much at the moment but it should get fixes later on
-
+it's been a nice run with you all, i would continue this, but with all the hate and harassment over this, it doesnt seem fair to make a product that people wont like. thanks for sticking thru this, take care! --charlie
 
 PythonicOS is a Open Source Desktop/Display manager for linux
 # Contributing
