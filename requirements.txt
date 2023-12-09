@@ -214,7 +214,7 @@ typing_extensions==4.6.2
 tzdata==2023.3
 uc-micro-py==1.0.2
 uritemplate==4.1.1
-urllib3==1.26.16
+urllib3==1.26.18
 urllib3-secure-extra==0.1.0
 uvicorn==0.22.0
 vcrpy==4.3.1
