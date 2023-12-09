@@ -9,7 +9,6 @@
 ###########
 ##Imports##
 ###########
-
 import os
 import time
 import sys
@@ -36,6 +35,16 @@ import websocket
 ###########
 
 
+###########
+#modules###
+###########
+
+#owi
+from towi import websocket, internet,ping
+#
+
+#####
+
 
 
 def printslow(text):
@@ -49,19 +58,6 @@ def printfast(text):
         time.sleep(0.01)
         
 
-def internet(link):
-    # Check if there is internet
-    try:
-        urllib.request.urlopen(link, timeout=1)
-        return True
-    except urllib.request.URLError as err:
-        return False
-    
-def ping(host):
-    # Ping a host
-    param = '-n' if platform.system().lower() == 'windows' else '-c'
-    command = ['ping', param, '1', host]
-    return subprocess.call(command) == 0
 
 def clear():
     # Clear the screen
@@ -70,11 +66,3 @@ def clear():
     else:
         os.system("clear")
         
-def websocket():
-    # Websocket
-
-    ws = websocket.WebSocket()
-    ws.connect("ws://echo.websocket.org")
-    ws.send("Hello, World")
-    ws.recv()
-    ws.close()
