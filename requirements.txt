@@ -12,7 +12,7 @@ attrs==23.1.0
 auto_gpt_plugin_template==0.0.3
 autoflake==2.1.1
 beautifulsoup4==4.12.2
-black==23.3.0
+black==24.3.0
 blis==0.7.9
 buildozer==1.5.0
 cachetools==5.3.1
